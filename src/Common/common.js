@@ -63,7 +63,6 @@ function Login() {
       UpdateLogin(true);
     }
   });
-
 }
 
 function Logout() {

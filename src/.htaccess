@@ -1,0 +1,10 @@
+Options All -Indexes
+ErrorDocument 404 /assignment/Pages/404.php
+ErrorDocument 500 /assignment/Pages/404.php
+
+RewriteEngine On
+RewriteBase /<assignment>/
+RewriteRule ^index\.php＄ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /assignment/index.php [L]

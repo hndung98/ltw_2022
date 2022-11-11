@@ -1,0 +1,11 @@
+
+Routing
+https://www.educative.io/answers/how-to-create-a-basic-php-router
+
+Allow override
+https://httpd.apache.org/docs/2.4/mod/core.html#allowoverride
+
+Fix not allow override
+https://stackoverflow.com/questions/12202387/htaccess-errordocument-404-not-showing-up
+check error log in <root>/logs/error.log
+https://stackoverflow.com/questions/10144634/htaccess-invalid-command-rewriteengine-perhaps-misspelled-or-defined-by-a-m
