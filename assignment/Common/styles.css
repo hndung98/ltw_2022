@@ -1,0 +1,57 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}
+
+.root-container{
+    width: 100%;
+    min-height: 1760px;
+    background-color: azure;
+}
+
+.my-bg-color-header{
+    background-color: deepskyblue;
+}
+
+.my-bg-color-content{
+    background-color: inherit;
+}
+
+.my-bg-color-footer{
+    background-color: silver;
+}
+
+.my-border-1px-solid-red {
+    border: 1px solid rgb(173, 6, 6);
+}
+
+.my-space-10px {
+    height: 10px;
+}
+.my-space-30px {
+    height: 30px;
+}
+
+.my-bg-color-royalblue {
+    background-color: royalblue;
+}
+
+.my-width-100per {
+    width: 100%;
+}
+.my-text-bold {
+    font-weight: bold;
+}
+.my-text-align-center{
+    text-align: center;
+}
+/* Small Devices, Tablets */
+/* @media only screen and (min-width : 768px) {
+    body {
+        background-color: darkkhaki;
+    }
+} */
