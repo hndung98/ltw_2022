@@ -1,10 +1,21 @@
 <?php
 if(isset($_GET['action'])){
+    if ($_GET['action'] == 'GetAppInfo') { GetAppInfo(); }
     if ($_GET['action'] == 'Login') { Login(); }
 }
 if(isset($_POST['action'])){
     if ($_POST['action'] == "GetAllUser") { GetAllUser(); }
     if ($_POST['action'] == "GetUserInfo") { GetUserInfo(); }
+}
+
+function GetAppInfo(){
+    $form_data = array();
+    $form_data['success'] = true;
+    $form_data['AppName'] = 'BK Shop';
+    $form_data['AppMail'] = 'BKShop@gmail';
+    $form_data['AppPhone'] = '0986213444';
+    //Return data
+    echo json_encode($form_data);
 }
 
 function Login(){

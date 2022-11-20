@@ -1,27 +1,19 @@
 <?php
-    $errors = array(); //To store errors
-    $form_data = array(); //Pass back the data to `form.php`
-    
-    /* Validate the form on the server side */
-    if (empty($_POST['username'])) { //Name cannot be empty
-        $errors['username'] = 'username cannot be blank';
-    }
-    /* Validate the form on the server side */
-    if (empty($_POST['password'])) { //Name cannot be empty
-        $errors['password'] = 'password cannot be blank';
-    }
-    
-    if (!empty($errors)) { //If errors in validation
-        $form_data['success'] = false;
-        $form_data['errors']  = $errors;
-    }
-    else { //If not, process the form, and return true on success
-        $form_data['success'] = true;
-        $form_data['posted'] = 'Data Was Posted Successfully';
+    class Suit{
+        public $id;
+        public $name;
+        public $size;
+        public $color;
+        public $img;
+        // Methods
+        function set_name($name) {
+          $this->name = $name;
+        }
     }
     
-    //Return the data back to form.php
-    echo json_encode($form_data);
-
+    function includeFileWithVariables($fileName, $variables) {
+        extract($variables);
+        include($fileName);
+     }
 
 ?>

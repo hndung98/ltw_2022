@@ -2,16 +2,37 @@ var currentRowNumber = 0;
 var currentColNumber = 2;
 var MAX_ROW_NUMBER = 10;
 var MAX_COL_NUMBER = 5;
+var oldWidth = document.documentElement.clientWidth;
 
 Init();
+ResizeWindow();
+window.addEventListener('resize', ResizeWindow);
 
 function Init(){
+  console.log('Init');
   let username = localStorage.getItem("username");
   if(username){
     UpdateLogin(true);
   }
   else{
     UpdateLogin(false);
+  }
+}
+function ResizeWindow(event) {
+  let width = document.documentElement.clientWidth;
+  console.log('clientWidth: ', width);
+
+  if (width < 768){
+    //xs
+  }
+  else if (width >= 768){
+    //
+  }
+  else if (width >= 992){
+    //
+  }
+  else if (width >= 1200){
+    //
   }
 }
 
@@ -26,13 +47,13 @@ function Test() {
 
 function GetAllUser(){
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "Services/AppServices.php",
     data: { action: 'GetAllUser'},
   }).done(function (res) {
     //alert("Successful ");
     let data = JSON.parse(res);
-    console.log('data: ', data);
+    console.log('GetAllUser: ', data);
   });
 }
 
@@ -44,24 +65,26 @@ function GetUserInfo(){
   }).done(function (res) {
     //alert("Successful ");
     let data = JSON.parse(res);
-    console.log('data: ', data);
+    console.log('GetUserInfo: ', data);
   });
 }
 
 function Login() {
+  console.log("[url]", window.location.href);
+  console.log("[document.URL]", document.URL);
   console.log("[Click Login]");
   $.ajax({
     type: "GET",
-    url: "Services/AppServices.php",
-    data: { action: 'Login', username: "sa", password: '123' },
+    url: "../Services/AppServices.php",
+    data: { action: 'Login', username: "sa"},
   }).done(function (res) {
-    //alert("Successful ");
-    let data = JSON.parse(res);
-    console.log('Login: ', data);
-    if(data.success){
-      localStorage.setItem("username", "Dung");
-      UpdateLogin(true);
-    }
+    localStorage.setItem("username", "Dung");
+    UpdateLogin(true);
+    console.log('Login: ', res);
+    
+    // let data = JSON.parse(res);
+    // if(data.success){
+    // }
   });
 }
 

@@ -1,17 +1,24 @@
 <?php
 
-echo '<script type="text/javascript"> console.log("'.'index init '.'"); </script>';
-
 $routes = [];
 
 route('/assignment/', function() {
-    echo "Home Page<br>";
+    include './Pages/HomePage.php';
 });
-route('/assignment/home/', function() {
-    echo "/home Page<br>";
+route('/assignment/cart/', function() {
+    include './Pages/CartPage.php';
+});
+route('/assignment/product/', function() {
+    include './Pages/ProductPage.php';
+});
+route('/assignment/profile/', function() {
+    include './Pages/ProfilePage.php';
+});
+route('/assignment/about/', function() {
+    include './Pages/AboutPage.php';
 });
 route('/assignment/404/', function() {
-    echo "Page not found<br>";
+    include './Pages/404Page.php';
 });
 
 function route(string $path, callable $callback){
@@ -24,11 +31,10 @@ run();
 function run(){
     global $routes;
     $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-    echo '<script type="text/javascript"> console.log("'.$uri.'"); </script>';
     $found = false;
-    echo 'uri: '.$uri.'<br>';
+    // echo 'uri: '.$uri.'<br>';
     foreach($routes as $path => $callback){
-        echo 'path: '.$path.'<br>';
+        // echo 'path: '.$path.'<br>';
         if ($path !== $uri) continue;
 
         $found = true;
