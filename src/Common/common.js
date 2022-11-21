@@ -48,22 +48,34 @@ function Test() {
 function GetAllUser(){
   $.ajax({
     type: "GET",
-    url: "Services/AppServices.php",
+    url: "../Services/AppServices.php",
     data: { action: 'GetAllUser'},
   }).done(function (res) {
-    //alert("Successful ");
+    console.log("GetAllUser Successful ");
     let data = JSON.parse(res);
     console.log('GetAllUser: ', data);
+  });
+}
+
+function GetNewProducts(){
+  $.ajax({
+    type: "GET",
+    url: "../Services/AppServices.php",
+    data: { action: 'GetNewProducts'},
+  }).done(function (res) {
+    console.log("GetNewProducts Successful ");
+    let data = JSON.parse(res);
+    console.log('GetNewProducts: ', data);
   });
 }
 
 function GetUserInfo(){
   $.ajax({
     type: "POST",
-    url: "Services/AppServices.php",
+    url: "../Services/AppServices.php",
     data: { action: 'GetUserInfo', username: "Dung", password: '123' },
   }).done(function (res) {
-    //alert("Successful ");
+    console.log("GetUserInfo Successful ");
     let data = JSON.parse(res);
     console.log('GetUserInfo: ', data);
   });

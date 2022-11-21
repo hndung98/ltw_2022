@@ -5,7 +5,7 @@
             </a>
 
             <ul class="nav nav-pills col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li class="nav-item"><a href="/assignment/" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/assignment/home/" class="nav-link active" aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="/assignment/product/" class="nav-link">Product</a></li>
                 <li class="nav-item"><a href="/assignment/about/" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="#" class="nav-link" onclick="Test()">Test</a></li>
@@ -21,8 +21,8 @@
                     <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="#" onclick="GetAllUser()">Get all users</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="GetUserInfo()">Get user info</a></li>
+                    <li><a class="dropdown-item"  onclick="GetAllUser()">Get all users</a></li>
+                    <li><a class="dropdown-item"  onclick="GetNewProducts()">Get data</a></li>
                     <li><a class="dropdown-item" href="/assignment/cart/">My Cart</a></li>
                     <li><a class="dropdown-item" href="/assignment/profile/">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Change Password</a></li>

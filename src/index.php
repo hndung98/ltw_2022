@@ -1,23 +1,24 @@
 <?php
 
 $routes = [];
+static $base_uri = '/assignment/';
 
-route('/assignment/', function() {
+route($base_uri . 'home/', function(){
     include './Pages/HomePage.php';
 });
-route('/assignment/cart/', function() {
+route($base_uri . 'cart/', function(){
     include './Pages/CartPage.php';
 });
-route('/assignment/product/', function() {
+route($base_uri . 'product/', function(){
     include './Pages/ProductPage.php';
 });
-route('/assignment/profile/', function() {
+route($base_uri . 'profile/', function(){
     include './Pages/ProfilePage.php';
 });
-route('/assignment/about/', function() {
+route($base_uri . 'about/', function(){
     include './Pages/AboutPage.php';
 });
-route('/assignment/404/', function() {
+route($base_uri . '404/', function(){
     include './Pages/404Page.php';
 });
 
@@ -30,6 +31,7 @@ run();
 
 function run(){
     global $routes;
+    global $base_uri;
     $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
     $found = false;
     // echo 'uri: '.$uri.'<br>';
@@ -41,7 +43,7 @@ function run(){
         $callback();
     }
     if(!$found){
-        $notFoundCallback = $routes['/assignment/404/'];
+        $notFoundCallback = $routes[$base_uri . '404/'];
         $notFoundCallback();
     }
 }
