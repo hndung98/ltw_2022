@@ -21,20 +21,55 @@
             <?php include './Components/header.php'; ?>
         </div>
 
-        <!-- Product  -->
-        <div class="my-products">
-            <?php include './Components/products.php'; ?>
+        <div class="container">
+            <h2>Advertise (new product, sales off, etc)</h2>
+            <?php include './Components/carousel.php'; ?>
         </div>
 
+        <div class="container">
+            <h2>Product list by category</h2>
+            <div class="row">
+                <div class="col-4">
+                    <!-- TEST  -->
+                    <div>
+                        <?php include './Components/test.php'; ?>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <!-- Product  -->
+                    <div class="my-products">
+                        <?php include './Components/products.php'; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- TEST  -->
-        <div>
-            <?php include './Components/test.php'; ?>
+        <div class="container">
+            <h2>Best seller</h2>
+            <div class="row">
+                <div class="col-12">
+                    <!-- TEST  -->
+                    <div>
+                        <?php include './Components/test.php'; ?>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <!-- Product  -->
+                    <div class="my-products">
+                        <?php include './Components/products.php'; ?>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Footer  -->
         <div class="container my-bg-color-footer">
             <?php include './Components/footer.php'; ?>
+        </div>
+
+        <div class="grid text-center">
+            <div class="g-col-6">.g-col-6</div>
+            <div class="g-col-6">.g-col-6</div>
         </div>
 
     </div>

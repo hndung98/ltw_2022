@@ -27,6 +27,7 @@
             <?php include './Components/carousel.php'; ?>
         </div>
 
+
         <!-- Footer  -->
         <div class="container my-bg-color-footer">
             <?php include './Components/footer.php'; ?>
