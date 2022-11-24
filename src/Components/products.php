@@ -5,32 +5,32 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col">
                     <?php 
-                    Card(new Suit("Áo MC sân nhà 2022", "120 000", "../Assets/Images/MC.jpg"));
+                    Card(new Suit("0", "Áo MC sân nhà", "2022", "120 000", "../Assets/Images/MC.jpg"));
                     ?>
                 </div>
                 <div class="col">
                     <?php 
-                    Card(new Suit("Áo PSG sân nhà 2022", "120 000", "../Assets/Images/PSG.jpg"));
+                    Card(new Suit("1", "Áo PSG sân nhà", "2022", "120 000", "../Assets/Images/PSG.jpg"));
                     ?>
                 </div>
                 <div class="col">
                     <?php 
-                    Card(new Suit("Áo MU sân nhà 2022", "120 000", "../Assets/Images/MU.jpg"));
+                    Card(new Suit("2", "Áo MU sân nhà", "2022", "120 000", "../Assets/Images/MU.jpg"));
                     ?>
                 </div>
                 <div class="col">
                     <?php 
-                    Card(new Suit("Áo MC sân nhà 2022", "120 000", "../Assets/Images/MC.jpg"));
+                    Card(new Suit("3", "Áo MC sân nhà", "2022", "120 000", "../Assets/Images/MC.jpg"));
                     ?>
                 </div>
                 <div class="col">
                     <?php 
-                    Card(new Suit("Áo PSG sân nhà 2022", "120 000", "../Assets/Images/PSG.jpg"));
+                    Card(new Suit("4", "Áo PSG sân nhà", "2022", "120 000", "../Assets/Images/PSG.jpg"));
                     ?>
                 </div>
                 <div class="col">
                     <?php 
-                    Card(new Suit("Áo MU sân nhà 2022", "120 000", "../Assets/Images/MU.jpg"));
+                    Card(new Suit("5", "Áo MU sân nhà", "2022", "120 000", "../Assets/Images/MU.jpg"));
                     ?>
                 </div>
             </div>

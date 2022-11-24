@@ -21,23 +21,35 @@
             <?php include_once './Components/header.php'; ?>
         </div>
 
-        <h1>Product page</h1>
         <!-- Product  -->
         <div class="container">
-            <?php include_once './Components/carousel.php'; 
+            <?php include_once './Components/carousel.php';
             $list = array(
-                new Suit("Áo MU sân nhà 2022 ", "120 000 VNĐ", "../Assets/Images/MU.jpg"),
-                new Suit("Áo MC sân nhà 2022 ", "120 000 VNĐ", "../Assets/Images/MC.jpg"),
-                new Suit("Áo Ars sân nhà 2022 ", "120 000 VNĐ", "../Assets/Images/Ars.jpg")
+                new Suit("0", "Áo MU sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/MU.jpg"),
+                new Suit("0", "Áo MC sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/MC.jpg"),
+                new Suit("0", "Áo Ars sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Ars.jpg")
             );
-            Carousel($list);
+            Carousel($list, "1");
             ?>
         </div>
 
-        <h1>Test page</h1>
-            <?php 
-            Card(new Suit("Áo PSG sân nhà 2022", "120 000", "../Assets/Images/MC.jpg"));
-            ?>
+        <div class="container">
+            <h2>Product list by category</h2>
+            <div class="row">
+                <div class="col-4">
+                    <!-- TEST  -->
+                    <div>
+                        <?php include_once './Components/test.php'; ?>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <!-- Product  -->
+                    <div class="my-products">
+                        <?php include_once './Components/products.php'; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Footer  -->
         <div class="container my-bg-color-footer">

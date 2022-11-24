@@ -2,13 +2,17 @@
 
 class Suit
 {
+    public $id;
     public $name;
+    public $year;
     public $price;
     public $image;
 
-    function __construct($name, $price, $image)
+    function __construct($id, $name, $year, $price, $image)
     {
+        $this->id = $id;
         $this->name = $name;
+        $this->year = $year;
         $this->price = $price;
         $this->image = $image;
     }

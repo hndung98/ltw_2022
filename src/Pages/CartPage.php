@@ -20,23 +20,23 @@
 
         <!-- Header  -->
         <div class="my-container my-bg-color-header sticky-top">
-            <?php include './Components/header.php'; ?>
+            <?php include_once './Components/header.php'; ?>
         </div>
 
         <!-- Product  -->
         <div class="my-products">
-            <?php include './Components/products.php'; ?>
+            <?php include_once './Components/products.php'; ?>
         </div>
 
 
         <!-- TEST  -->
         <div>
-            <?php include './Components/test.php'; ?>
+            <?php include_once './Components/test.php'; ?>
         </div>
 
         <!-- Footer  -->
         <div class="container my-bg-color-footer">
-            <?php include './Components/footer.php'; ?>
+            <?php include_once './Components/footer.php'; ?>
         </div>
 
     </div>

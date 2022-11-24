@@ -5,7 +5,7 @@ function Card(Suit $item){
             <img class="card-img-top" height="200px" src="'.$item->image.'">
             <div class="card-body text-success my-text-align-center">
                 <h5 class="card-title">'.$item->name.'</h5>
-                <button href="#" class="btn btn-primary">Buy now</button>
+                <button class="btn btn-outline-primary">Buy now</button>
             </div>
             <div class="card-footer bg-transparent border-success my-text-align-right">$'.$item->price.'</div>
         </div>
@@ -18,7 +18,7 @@ function CardInCarousel(Suit $item){
                 <img class="card-img-top" height="200px" src="'.$item->image.'">
                 <div class="card-body text-success my-text-align-center">
                     <h5 class="card-title">'.$item->name.'</h5>
-                    <button href="#" class="btn btn-primary">Buy now</button>
+                    <button href="#" class="btn btn-outline-primary">Buy now</button>
                 </div>
                 <div class="card-footer bg-transparent border-success my-text-align-right">$'.$item->price.'</div>
             </div>

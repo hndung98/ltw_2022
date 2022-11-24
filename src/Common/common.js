@@ -5,11 +5,15 @@ var MAX_COL_NUMBER = 5;
 var oldWidth = document.documentElement.clientWidth;
 
 Init();
-ResizeWindow();
-window.addEventListener('resize', ResizeWindow);
+
+// ResizeWindow();
+// window.addEventListener('resize', ResizeWindow);
 
 function Init(){
   console.log('Init');
+
+  updateMenuActive();
+  
   let username = localStorage.getItem("username");
   if(username){
     UpdateLogin(true);
@@ -18,6 +22,26 @@ function Init(){
     UpdateLogin(false);
   }
 }
+
+function updateMenuActive(){
+  let menus = ["home","product","about"];
+  let url = document.URL.split("/");
+  let i = url.findIndex((element) => menus.findIndex(e => e == element) > -1);
+  console.log('i: ', i);
+  if (i > -1){
+    menus.forEach(element => {
+      let menuItemElement = document.getElementById("menu-item-" + element);
+      console.log('menuItemElement: ', menuItemElement);
+      // if(menuItemElement.classList.contains("active")){
+      //   menuItemElement.classList.remove("active");
+      // }
+      if(element == url[i]){
+        menuItemElement.classList.add("active");
+      }
+    });
+  }
+}
+
 function ResizeWindow(event) {
   let width = document.documentElement.clientWidth;
   console.log('clientWidth: ', width);
@@ -88,7 +112,7 @@ function Login() {
   $.ajax({
     type: "GET",
     url: "../Services/AppServices.php",
-    data: { action: 'Login', username: "sa"},
+    data: { action: 'Login', username: "sa", password: "1"},
   }).done(function (res) {
     localStorage.setItem("username", "Dung");
     UpdateLogin(true);
@@ -113,10 +137,12 @@ $("#btn-login").click(function () {
 function UpdateLogin(isLogin){
   if(isLogin){
     document.getElementById("btn-login").style.display = "none";
+    document.getElementById("btn-signup").style.display = "none";
     document.getElementById("div-avatar").style.display = "inline";
   }
   else{    
     document.getElementById("div-avatar").style.display = "none";
     document.getElementById("btn-login").style.display = "inline";
+    document.getElementById("btn-signup").style.display = "inline";
   }
 }
