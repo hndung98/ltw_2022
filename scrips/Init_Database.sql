@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS dbo.SalesDetails(
 
 -- Init data
 INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('AppName',0,'BK SHOP');
-INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('Sys_Email',0,'1610538@hcmut');
+INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('Sys_Email',0,'mybk.cs@hcmut.edu.vn');
 INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('Sys_Phone',0,'035 905 6348');
 INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('UserType',1,'Admin');
 INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('UserType',2,'Employee');
@@ -58,7 +58,7 @@ INSERT INTO `dbo`.`control`(`ControlKey`,`ControlCode`,`ControlName`) VALUES ('U
 INSERT INTO `dbo`.`user`(`Usertype`,`Username`,`Password`,`FirstName`,`LastName`,`Birthday`,`Gender`,`Email`,`Phone`)
 VALUES (0, 'sa', '123', 'System', 'Admin', '1999-01-20', 0, 'sys.bk@gmail.com', '037 492 1052');
 INSERT INTO `dbo`.`user`(`Usertype`,`Username`,`Password`,`FirstName`,`LastName`,`Birthday`,`Gender`,`Email`,`Phone`)
-VALUES (1, '1', '1', 'Luis', 'Nani', '1989-11-26', 0, 'nani@gmail.com', '032 132 1052');
+VALUES (1, '1', '1', 'Luis', 'Nani', '1989-11-26', 0, 'nani@gmail.com', '032 132 4331');
 INSERT INTO `dbo`.`user`(`Usertype`,`Username`,`Password`,`FirstName`,`LastName`,`Birthday`,`Gender`,`Email`,`Phone`)
 VALUES (0, '2', '2', 'Reece', 'James', '1999-02-20', 0, 'james@gmail.com', '032 434 1552');
 
