@@ -49,6 +49,9 @@ h1 {
 .my-text-align-center{
     text-align: center;
 }
+.my-text-align-right{
+    text-align: right;
+}
 /* Small Devices, Tablets */
 /* @media only screen and (min-width : 768px) {
     body {

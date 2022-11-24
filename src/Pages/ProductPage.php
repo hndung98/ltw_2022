@@ -18,19 +18,30 @@
 
         <!-- Header  -->
         <div class="my-container my-bg-color-header sticky-top">
-            <?php include './Components/header.php'; ?>
+            <?php include_once './Components/header.php'; ?>
         </div>
 
         <h1>Product page</h1>
         <!-- Product  -->
         <div class="container">
-            <?php include './Components/carousel.php'; ?>
+            <?php include_once './Components/carousel.php'; 
+            $list = array(
+                new Suit("Áo MU sân nhà 2022 ", "120 000 VNĐ", "../Assets/Images/MU.jpg"),
+                new Suit("Áo MC sân nhà 2022 ", "120 000 VNĐ", "../Assets/Images/MC.jpg"),
+                new Suit("Áo Ars sân nhà 2022 ", "120 000 VNĐ", "../Assets/Images/Ars.jpg")
+            );
+            Carousel($list);
+            ?>
         </div>
 
+        <h1>Test page</h1>
+            <?php 
+            Card(new Suit("Áo PSG sân nhà 2022", "120 000", "../Assets/Images/MC.jpg"));
+            ?>
 
         <!-- Footer  -->
         <div class="container my-bg-color-footer">
-            <?php include './Components/footer.php'; ?>
+            <?php include_once './Components/footer.php'; ?>
         </div>
 
     </div>

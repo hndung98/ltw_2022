@@ -18,12 +18,14 @@
 
         <!-- Header  -->
         <div class="my-container my-bg-color-header sticky-top">
-            <?php include './Components/header.php'; ?>
+            <?php include_once './Components/header.php'; ?>
         </div>
 
         <div class="container">
             <h2>Advertise (new product, sales off, etc)</h2>
-            <?php include './Components/carousel.php'; ?>
+            <?php 
+            include_once './Components/carousel.php';
+            ?>
         </div>
 
         <div class="container">
@@ -32,13 +34,13 @@
                 <div class="col-4">
                     <!-- TEST  -->
                     <div>
-                        <?php include './Components/test.php'; ?>
+                        <?php include_once './Components/test.php'; ?>
                     </div>
                 </div>
                 <div class="col-8">
                     <!-- Product  -->
                     <div class="my-products">
-                        <?php include './Components/products.php'; ?>
+                        <?php include_once './Components/products.php'; ?>
                     </div>
                 </div>
             </div>
@@ -50,13 +52,13 @@
                 <div class="col-12">
                     <!-- TEST  -->
                     <div>
-                        <?php include './Components/test.php'; ?>
+                        <?php include_once './Components/test.php'; ?>
                     </div>
                 </div>
                 <div class="col-12">
                     <!-- Product  -->
                     <div class="my-products">
-                        <?php include './Components/products.php'; ?>
+                        <?php include_once './Components/products.php'; ?>
                     </div>
                 </div>
             </div>

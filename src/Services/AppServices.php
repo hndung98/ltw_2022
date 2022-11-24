@@ -72,10 +72,10 @@ function GetNewProducts(){
     $form_data = array();
     
     $data = array(
-        new Suit("Áo PSG sân nhà 2022 ", "120 000 VNĐ"),
-        new Suit("Áo MU sân nhà 2022 ", "120 000 VNĐ"),
-        new Suit("Áo Barca sân nhà 2022 ", "120 000 VNĐ"),
-        new Suit("Áo Real sân nhà 2022 ", "120 000 VNĐ")
+        new Suit("Áo PSG sân nhà 2022 ", "120 000 VNĐ", ""),
+        new Suit("Áo MU sân nhà 2022 ", "120 000 VNĐ", ""),
+        new Suit("Áo Barca sân nhà 2022 ", "120 000 VNĐ", ""),
+        new Suit("Áo Real sân nhà 2022 ", "120 000 VNĐ", "")
     );
     /*  */
     if (!empty($errors)) { //If errors in validation
