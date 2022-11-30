@@ -31,7 +31,7 @@ function updateMenuActive(){
   if (i > -1){
     menus.forEach(element => {
       let menuItemElement = document.getElementById("menu-item-" + element);
-      console.log('menuItemElement: ', menuItemElement);
+      // console.log('menuItemElement: ', menuItemElement);
       // if(menuItemElement.classList.contains("active")){
       //   menuItemElement.classList.remove("active");
       // }

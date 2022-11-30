@@ -1,5 +1,6 @@
 <div class="my-container my-bg-color-content" style="min-height: 1320px;">
-    <h3 class="my-text-align-center">Products</h3>
+    <div class="my-space-30px"></div>
+    <h3 class="my-text-align-center my-carousel-tag-name">Products</h3>
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
