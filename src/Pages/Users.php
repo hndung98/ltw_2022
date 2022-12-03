@@ -1,5 +1,5 @@
 <?php
-$configs = include('config.php');
+$configs = include('./Services/config.php');
 $host = $configs['db_host'];
 $username = $configs['db_username'];
 $password = $configs['db_password'];
@@ -12,143 +12,29 @@ if ($conn->connect_error) {
     // echo '<script type="text/javascript">console.log("Connected failed")</script>';
 }
 // echo '<script type="text/javascript">console.log("Connected successfully")</script>';
+?>
 
-//include_once 'common.php';
+<?php
 
-if (isset($_GET['action'])) {
-    if ($_GET['action'] == "GetAllUser") {
-        GetAllUser();
-    }
-    if ($_GET['action'] == 'GetNewProducts') {
-        GetNewProducts();
-    }
-    if ($_GET['action'] == 'GetAppInfo') {
-        GetAppInfo();
-    }
-    if ($_GET['action'] == 'Login') {
-        Login();
-    }
-    if ($_GET['action'] == 'DeleteUser') {
-        $deleteID = $_GET['id'];
-        deleteUserById($deleteID);
-    }
-}
-if (isset($_POST['action'])) {
-    if ($_POST['action'] == "GetUserInfo") {
-        GetUserInfo();
-    }
-}
-if (isset($_POST['addUser'])) {
-}
-function GetAppInfo()
-{
-    $form_data = array();
-    $form_data['success'] = true;
-    $form_data['AppName'] = 'BK Shop';
-    $form_data['AppMail'] = 'BKShop@gmail';
-    $form_data['AppPhone'] = '0986213444';
-    //Return data
-    echo json_encode($form_data);
-}
-
-function Login()
-{
-    $errors = array();
-    $form_data = array();
-    /* Validate the form on the server side */
-    if (empty($_GET['username'])) {
-        $errors['username'] = 'username cannot be blank';
-    }
-    if (empty($_GET['password'])) {
-        $errors['password'] = 'password cannot be blank';
-    }
-
-    /*  */
-    if (!empty($errors)) { //If errors in validation
-        $form_data['success'] = false;
-        $form_data['errors']  = $errors;
-    } else { //If not
-        if ($_GET['username'] == 'sa' && $_GET['password'] == '123') {
-            $form_data['success'] = true;
-            $form_data['msg'] = 'Login successfully';
-        } else {
-            $form_data['success'] = false;
-            $form_data['msg'] = 'Username or password invalid';
-        }
-    }
-
-    //Return data
-    echo json_encode($form_data);
-}
-
-function GetNewProducts()
-{
-    $errors = array();
-    $form_data = array();
-
-    $data = array(
-        new Suit("0", "Áo PSG sân nhà", "2022", "120 000 VNĐ", ""),
-        new Suit("1", "Áo MU sân nhà", "2022", "120 000 VNĐ", ""),
-        new Suit("2", "Áo Barca sân nhà", "2022", "120 000 VNĐ", ""),
-        new Suit("3", "Áo Real sân nhà", "2022", "120 000 VNĐ", "")
-    );
-    /*  */
-    if (!empty($errors)) { //If errors in validation
-        $form_data['success'] = false;
-        $form_data['errors']  = $errors;
+if (isset($_POST['delete'])) {
+    $id = $_POST['deleteID'];
+    $sql = "DELETE FROM user WHERE UserId = ? ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $remove);
+    $result = $stmt->execute();
+    if ($result) {
+        $msg = '<div class="alert alert-success alert-dismissible mt-3" id="flash-msg">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success !</strong> User account Deleted Successfully !
+    </div>';
+        return $msg;
     } else {
-        $form_data['success'] = true;
-        $form_data['data']  = $data;
+        $msg = '<div class="alert alert-danger alert-dismissible mt-3" id="flash-msg">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error !</strong> Data not Deleted !
+    </div>';
+        return $msg;
     }
-
-    //Return data
-    echo json_encode($form_data);
-}
-
-function GetAllUser()
-{
-    global $conn;
-    $form_data = array();
-    $form_data['success'] = true;
-
-    $sql_query = "SELECT * FROM dbo.User;";
-    $result = $conn->query($sql_query);
-    $user_length = 0;
-    if ($result->num_rows > 0) {
-        // output data of each row
-        while ($row = $result->fetch_assoc()) {
-            $user_length++;
-        }
-    } else {
-        // $user_length = -1
-    }
-    $form_data['user_length'] = $user_length;
-    //Return data
-    echo json_encode($form_data);
-}
-function GetUserInfo()
-{
-    $errors = array();
-    $form_data = array();
-    /* Validate the form on the server side */
-    if (empty($_POST['username'])) {
-        $errors['username'] = 'username cannot be blank';
-    }
-    /* Validate the form on the server side */
-    if (empty($_POST['password'])) {
-        $errors['password'] = 'password cannot be blank';
-    }
-
-    if (!empty($errors)) { //If errors in validation
-        $form_data['success'] = false;
-        $form_data['errors']  = $errors;
-    } else { //If not, process the form, and return true on success
-        $form_data['success'] = true;
-        $form_data['msg'] = 'Data Was Posted Successfully';
-    }
-
-    //Return data
-    echo json_encode($form_data);
 }
 
 function checkExistEmail($email)
@@ -184,17 +70,17 @@ function checkExistUserName($username)
 function addNewUserByAdmin($data)
 {
     global $conn;
-    $userType = $_POST['userType'];
-    $userName = $_POST['userName'];
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $gender = $_POST['gender'];
-    $password = $_POST['password'];
-    $day = $_POST['day'];
-    $month = $_POST['month'];
-    $year = $_POST['year'];
+    $userType = $data['userType'];
+    $userName = $data['userName'];
+    $firstName = $data['firstName'];
+    $lastName = $data['lastName'];
+    $email = $data['email'];
+    $phone = $data['phone'];
+    $gender = $data['gender'];
+    $password = $data['password'];
+    $day = $data['day'];
+    $month = $data['month'];
+    $year = $data['year'];
     if ($day < 10) $day = '0' . $day;
     if ($month < 10) $month = '0' . $month;
     $birthday = $year . '-' . $month . '-' . $day;
@@ -294,41 +180,57 @@ function addNewUserByAdmin($data)
     }
 }
 
-function deleteUserById($id)
+function deleteUserById($remove)
 {
     global $conn;
-    $form_data = array();
-
     $sql = "DELETE FROM user WHERE UserId = ? ";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $id);
+    $stmt->bind_param('i', $remove);
     $result = $stmt->execute();
     if ($result) {
-        $form_data['message'] = '<div class="alert alert-success alert-dismissible mt-3" id="flash-msg">
+        $msg = '<div class="alert alert-success alert-dismissible mt-3" id="flash-msg">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Success !</strong> User account Deleted Successfully !
     </div>';
+        return $msg;
     } else {
-        $form_data['message'] = '<div class="alert alert-danger alert-dismissible mt-3" id="flash-msg">
+        $msg = '<div class="alert alert-danger alert-dismissible mt-3" id="flash-msg">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Error !</strong> Data not Deleted !
     </div>';
+        return $msg;
     }
-    echo json_encode($form_data);
 }
 
-function GetAer()
+function GetAllUser()
 {
     global $conn;
     $form_data = array();
     $form_data['success'] = true;
 
-    $sql_query = "SELECT * FROM dbo.User;";
-    $result = $conn->query($sql_query);
+    $sql = "SELECT * FROM user";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $user_length = 0;
     if ($result->num_rows > 0) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
+            $userid = $row['UserId'];
+            $username = $row['Username'];
+            $lastname = $row['LastName'];
+            $email = $row['Email'];
+            $phone = $row['Phone'];
+            $created = $row['CreatedDateTime'];
+            $userType = $row['Usertype'];
+
+            $form_data['userid'][$user_length] = $userid;
+            $form_data['username'][$user_length] = $username;
+            $form_data['lastname'][$user_length] = $lastname;
+            $form_data['email'][$user_length] = $email;
+            $form_data['phone'][$user_length] = $phone;
+            $form_data['created'][$user_length] = $created;
+            $form_data['usertype'][$user_length] = $userType;
             $user_length++;
         }
     } else {
@@ -338,3 +240,4 @@ function GetAer()
     //Return data
     echo json_encode($form_data);
 }
+?>

@@ -13,41 +13,28 @@ h1 {
     background-color: azure;
 }
 
-/* common tag */
-.my-carousel-tag-name{
-    color: dimgray;
-}
-.my-list-group-item{
-    color: #0d6efd;
+.my-menu-item:hover{
+    color: azure;
 }
 
-/* small properties */
+.my-link-panel:hover{
+}
+
 .my-bg-color-header{
-    background-color: #0d6efd;
+    background-color: deepskyblue;
+}
+.my-cursor-pointer {
+    cursor: pointer;
 }
 
 .my-bg-color-content{
-    background-color: azure;
+    background-color: inherit;
 }
 
 .my-bg-color-footer{
     background-color: silver;
 }
 
-.my-menu-item:hover{
-    color: azure;
-}
-
-.my-cursor-pointer {
-    cursor: pointer;
-}
-
-.my-border-color-white {
-    border-color: white !important;
-}
-.my-border-none {
-    border: none !important;
-}
 .my-border-1px-solid-red {
     border: 1px solid rgb(173, 6, 6);
 }
@@ -59,19 +46,12 @@ h1 {
     height: 30px;
 }
 
-.my-width-100per {
-    width: 100%;
-}
-
 .my-bg-color-royalblue {
     background-color: royalblue;
 }
 
-.my-text-color-white{
-    color: white !important;
-}
-.my-text-color-blue{
-    color: #0d6efd !important;
+.my-width-100per {
+    width: 100%;
 }
 .my-text-bold {
     font-weight: bold;
@@ -85,11 +65,6 @@ h1 {
 .my-text-align-right{
     text-align: right;
 }
-
-.my-margin-right-20px{
-    margin-right: 20px;
-}
-
 .my-center-v15{
     padding: 15px 0;
 }
@@ -100,8 +75,8 @@ h1 {
     padding: 25px 0;
 }
 /* Small Devices, Tablets */
-@media only screen and (min-width : 768px) {
+/* @media only screen and (min-width : 768px) {
     body {
         background-color: darkkhaki;
     }
-}
+} */

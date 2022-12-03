@@ -8,25 +8,17 @@
 
     <link rel="stylesheet" type="text/css" href="../Common/styles.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/8d6784f1e8.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <title>ASSIGNMENT</title>
 </head>
 
 <body>
-    <?php
-        echo 'Current product id = '.$_SESSION["pid"];
-    ?>
+
     <div class="root-container">
 
         <!-- Header  -->
         <div class="my-container my-bg-color-header sticky-top">
             <?php include_once './Components/header.php'; ?>
-        </div>
-        <div>
-            <?php
-            include_once './Components/menu.php';
-            ?>
         </div>
 
         <!-- Product  -->

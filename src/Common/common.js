@@ -31,7 +31,7 @@ function updateMenuActive(){
   if (i > -1){
     menus.forEach(element => {
       let menuItemElement = document.getElementById("menu-item-" + element);
-      // console.log('menuItemElement: ', menuItemElement);
+      console.log('menuItemElement: ', menuItemElement);
       // if(menuItemElement.classList.contains("active")){
       //   menuItemElement.classList.remove("active");
       // }
@@ -146,3 +146,16 @@ function UpdateLogin(isLogin){
     document.getElementById("btn-signup").style.display = "inline";
   }
 }
+
+function DeleteUser(userid){
+  $.ajax({
+    type: "GET",
+    url: "../Services/AppServices.php",
+    data: { action: 'DeleteUser', id: userid},
+  }).done(function (res) {
+    console.log("DeleteUser Successful ");
+    let data = JSON.parse(res);
+    console.log('DeleteUser: ', data);
+  });
+}
+

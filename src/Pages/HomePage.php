@@ -18,35 +18,29 @@
     <div class="root-container">
 
         <!-- Header  -->
-        <div class="my-container sticky-top">
+        <div class="my-container my-bg-color-header sticky-top">
             <?php
             include_once './Components/header.php';
             include_once './Components/carousel.php';
             ?>
         </div>
-        <div>
-            <?php
-            include_once './Components/menu.php';
-            ?>
-        </div>
-        <div class="my-space-10px"></div>
         <div class="container text-center">
-            <div class="row" style="min-height: 440px;background-color: azure;">
-                <div class="col-md-3 col-sm-12">
+            <div class="row" style="height: 440px;background-color: azure;">
+                <div class="col-sm-3">
                     <div class="list-group" id="list-tab" role="tablist">
-                        <a class="list-group-item list-group-item-action my-list-group-item active" id="list-1-list" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-1">Áo CLB sân nhà</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-2-list" data-bs-toggle="list" href="#list-2" role="tab" aria-controls="list-2">Áo CLB sân khách</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-3-list" data-bs-toggle="list" href="#list-3" role="tab" aria-controls="list-3">Áo khoác CLB sân nhà</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-4-list" data-bs-toggle="list" href="#list-4" role="tab" aria-controls="list-4">Áo khoác CLB sân khách</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-2-list" data-bs-toggle="list" href="#list-5" role="tab" aria-controls="list-5">Áo ĐTQG sân nhà</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-3-list" data-bs-toggle="list" href="#list-6" role="tab" aria-controls="list-6">Áo ĐTQG sân khách</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-4-list" data-bs-toggle="list" href="#list-7" role="tab" aria-controls="list-7">Áo khoác ĐTQG sân nhà</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-2-list" data-bs-toggle="list" href="#list-8" role="tab" aria-controls="list-8">Áo khoác ĐTQG sân khách</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-3-list" data-bs-toggle="list" href="#list-9" role="tab" aria-controls="list-9">Giày bóng đá</a>
-                        <a class="list-group-item list-group-item-action my-list-group-item" id="list-4-list" data-bs-toggle="list" href="#list-10" role="tab" aria-controls="list-10">Khác</a>
+                        <a class="list-group-item list-group-item-action active" id="list-1-list" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-1">Áo câu lạc bộ</a>
+                        <a class="list-group-item list-group-item-action" id="list-2-list" data-bs-toggle="list" href="#list-2" role="tab" aria-controls="list-2">Áo đội tuyển</a>
+                        <a class="list-group-item list-group-item-action" id="list-3-list" data-bs-toggle="list" href="#list-3" role="tab" aria-controls="list-3">Giày bóng đá</a>
+                        <a class="list-group-item list-group-item-action" id="list-4-list" data-bs-toggle="list" href="#list-4" role="tab" aria-controls="list-4">Phụ kiện</a>
+                        <a class="list-group-item list-group-item-action" id="list-2-list" data-bs-toggle="list" href="#list-5" role="tab" aria-controls="list-5">Áo đội tuyển</a>
+                        <a class="list-group-item list-group-item-action" id="list-3-list" data-bs-toggle="list" href="#list-6" role="tab" aria-controls="list-6">Giày bóng đá</a>
+                        <a class="list-group-item list-group-item-action" id="list-4-list" data-bs-toggle="list" href="#list-7" role="tab" aria-controls="list-7">Phụ kiện</a>
+                        <a class="list-group-item list-group-item-action" id="list-2-list" data-bs-toggle="list" href="#list-8" role="tab" aria-controls="list-8">Áo đội tuyển</a>
+                        <a class="list-group-item list-group-item-action" id="list-3-list" data-bs-toggle="list" href="#list-9" role="tab" aria-controls="list-9">Giày bóng đá</a>
+                        <a class="list-group-item list-group-item-action" id="list-4-list" data-bs-toggle="list" href="#list-10" role="tab" aria-controls="list-10">Phụ kiện</a>
                     </div>
                 </div>
-                <div class="col-md-9 col-sm-12">
+                <div class="col-sm-9" style="">
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="list-1" role="tabpanel" aria-labelledby="list-1-list">
                             <?php
@@ -59,14 +53,7 @@
                             ?>
                         </div>
                         <div class="tab-pane fade" id="list-2" role="tabpanel" aria-labelledby="list-2-list">
-                            <?php
-                            $listProducts = array(
-                                new Suit("3", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
-                                new Suit("4", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
-                                new Suit("5", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
-                            );
-                            SingleCarousel($listProducts, "2");
-                            ?>
+                            <p>list-2-list</p>
                         </div>
                         <div class="tab-pane fade" id="list-3" role="tabpanel" aria-labelledby="list-3-list">
                             <p>list-3-list</p>
@@ -93,12 +80,12 @@
                             <p>list-10-list</p>
                         </div>
                     </div>
-                    <button class="btn btn-link">Xem thêm</button>
                 </div>
             </div>
         </div>
-        <div class="my-space-30px"></div>
+
         <div class="container text-center">
+                <button class="btn btn-outline-primary">Buy now</button>
             <div class="row">
                 <div class="col-sm">
                     <div class="row">
@@ -146,17 +133,17 @@
                 new Suit("5", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
             );
             $listNewProducts = array(
-                new Suit("6", "Áo MU sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/MU1.jpg"),
-                new Suit("7", "Áo Real sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/real1.jpg"),
-                new Suit("8", "Áo Barca sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/barca1.jpg"),
-                new Suit("9", "Áo MC sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/MC1.jpg"),
-                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg")
+                new Suit("0", "Áo MU sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/MU1.jpg"),
+                new Suit("1", "Áo Real sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/real1.jpg"),
+                new Suit("2", "Áo Barca sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/barca1.jpg"),
+                new Suit("3", "Áo MC sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/MC1.jpg"),
+                new Suit("4", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
+                new Suit("5", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg")
             );
             $listBestProducts = array(
-                new Suit("12", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
-                new Suit("13", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
-                new Suit("14", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
+                new Suit("1", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
+                new Suit("2", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
+                new Suit("3", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
             );
             echo '<div class="my-space-30px"></div>';
             Carousel($listDiscountProducts, "1", "Sản phẩm đang giảm giá");
@@ -168,7 +155,14 @@
         </div>
 
         <div class="container">
+            <h2>Best seller</h2>
             <div class="row">
+                <div class="col-12">
+                    <!-- TEST  -->
+                    <div>
+                        <?php include_once './Components/test.php'; ?>
+                    </div>
+                </div>
                 <div class="col-12">
                     <!-- Product  -->
                     <div class="my-products">
@@ -181,6 +175,11 @@
         <!-- Footer  -->
         <div class="container my-bg-color-footer">
             <?php include './Components/footer.php'; ?>
+        </div>
+
+        <div class="grid text-center">
+            <div class="g-col-6">.g-col-6</div>
+            <div class="g-col-6">.g-col-6</div>
         </div>
 
     </div>
