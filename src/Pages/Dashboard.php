@@ -1,3 +1,7 @@
+<?php
+include_once "./Services/AppServices.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,19 +16,47 @@
 </head>
 
 <body>
+    <script>
+    function DeleteUser(userid) {
+        $.ajax({
+            type: "GET",
+            url: "../Services/AppServices.php",
+            data: {
+                action: 'DeleteUser',
+                id: userid
+            },
+        }).done(function(res) {
+            console.log("DeleteUser Successful ");
+            let data = JSON.parse(res);
+            console.log('DeleteUser: ', data);
+        });
+    }
+
+    function EditUser(userid) {
+        $.ajax({
+            type: "GET",
+            url: "../Services/AppServices.php",
+            data: {
+                action: 'EditUser',
+                id: userid
+            },
+        }).done(function(res) {
+            console.log("EditUser Successful ");
+            let data = JSON.parse(res);
+            console.log('EditUser: ', data);
+        });
+    }
+    </script>
     <?php
-    include_once "./Services/AppServices.php";
-    echo '<script type="text/javascript" src="../Common/common.js"></script>';
-
-    if (isset($_GET['remove'])) {
-        $remove = preg_replace('/[^a-zA-Z0-9-]/', '', (int)$_GET['remove']);
-        $removeUser = deleteUserById($remove);
-    }
-
-    if (isset($removeUser)) {
-
-        echo $removeUser;
-    }
+    if (isset($_SESSION['message'])) : ?>
+    <div class="alert alert-<?= $_SESSION['messageType'] ?>">
+        <?php
+            echo $_SESSION['message'];
+            unset($_SESSION['message']);
+            ?>
+    </div>
+    <?php
+    endif;
     ?>
     <div class="root-container">
 
@@ -62,45 +94,35 @@
                         $result_users = mysqli_query($conn, $select_users);
 
                         if (mysqli_num_rows($result_users) > 0) {
-                            while ($row_data = mysqli_fetch_assoc($result_users)) {
-                                $userid = $row_data['UserId'];
-                                $username = $row_data['Username'];
-                                $lastname = $row_data['LastName'];
-                                $email = $row_data['Email'];
-                                $phone = $row_data['Phone'];
-                                $created = $row_data['CreatedDateTime'];
-                                $userType = $row_data['Usertype'];
-                                echo " <tr class='text-center'>
-    
-                            <td>$userid</td>
-                            <td>$lastname</td>
-                            <td>$username</td>
-                            <td>$email</td>
-                            <td>$phone</td>
-                            <td>";
-                                if ($userType == 1) {
-                                    echo "Admin";
-                                } else {
-                                    echo "Customer";
-                                }
-                                echo " 
-                            </td>
-                            <td>$created</td>
-    
+                            while ($row_data = mysqli_fetch_assoc($result_users)) : ?>
+                        <tr class='text-center'>
+                            <td><?php echo $row_data['UserId']; ?></td>
+                            <td><?php echo $row_data['Username']; ?></td>
+                            <td><?php echo $row_data['LastName']; ?></td>
+                            <td><?php echo $row_data['Email']; ?></td>
+                            <td><?php echo $row_data['Phone']; ?></td>
                             <td>
-    
+                                <?php
+                                        if ($row_data['Usertype'] == 1) {
+                                            echo "Admin";
+                                        } else {
+                                            echo "Customer";
+                                        }
+                                        ?>
+                            </td>
+                            <td><?php echo $row_data['CreatedDateTime']; ?></td>
+                            <td>
                                 <a class='btn btn-success btn-sm
-                                ' href='profile.php?id'>View</a>
-                                <a class='btn btn-info btn-sm ' href='profile.php?id=$userid'>Edit</a>
-                                <button onclick='DeleteUser($userid)'> Delete </button>";
-                            }
-                        } else {
-                            echo "<tr class='text-center'>
-                    <td>No user availabe now !</td>
-                </tr>";
-                        };
-
-                        ?>
+                                        ' href="profile.php?id=<?php echo $row_data['UserId']; ?>">View</a>
+                                <button onclick="EditUser(<?php echo $row_data['UserId']; ?>)"> Edit </button>
+                                <button onclick="DeleteUser(<?php echo $row_data['UserId']; ?>)"> Delete </button>
+                                <?php
+                                endwhile;
+                            } else { ?>
+                        <tr class='text-center'>
+                            <td>No user availabe now !</td>
+                        </tr>
+                        <?php } ?>
                         </td>
                         </tr>
 
@@ -112,26 +134,28 @@
             </div>
 
             <div class="row justify-content-center">
-                <form action="./Services/AppServices.php" method="POST">
+                <form action="/assignment/appService/" method="POST">
                     <div class="form-group pt-3">
                         <label for="name">Account Name:</label>
-                        <input type="text" name="userName" class="form-control">
+                        <input type="text" value="<?php echo $username; ?>" name="name" class="form-control"
+                            placeholder="User Name">
                     </div>
                     <div class="form-group">
                         <label for="firstName">Your First Name:</label>
-                        <input type="text" name="firstName" class="form-control">
+                        <input type="text" value="<?php echo $firstname; ?>" name="firstName" class="form-control"
+                            placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="lastName">Your Last Name:</label>
-                        <input type="text" name="lastName" class="form-control">
+                        <input type="text" value="<?php echo $lastname; ?>" name="lastName" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="email">Email address:</label>
-                        <input type="email" name="email" class="form-control">
+                        <input type="email" value="<?php echo $email; ?>" name="email" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number:</label>
-                        <input type="text" name="phone" class="form-control">
+                        <input type="text" value="<?php echo $phone; ?>" name="phone" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
@@ -155,7 +179,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="birthday">Birthday:</label>
+                        <label for="birthday">Birthday:</label><br>
                         <label for="month">Month:</label>
                         <select class="form-control" name="month" id="month">
                             <option value="0"></option>
@@ -205,7 +229,7 @@
         </div>
 
         <!-- external scripts -->
-        <script type="text/javascript" src="../Common/common.js"></script>
+        <script type="text/javascript" src="../"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
         </script>
