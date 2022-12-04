@@ -15,7 +15,9 @@
 
 <body>
     <?php
-        echo 'Current product id = '.$_SESSION["pid"];
+        if(isset($_SESSION['pid'])){
+            echo 'pid = '.$_SESSION["pid"];
+        }
     ?>
     <div class="root-container">
 
@@ -46,9 +48,6 @@
             <div class="row">
                 <div class="col-4">
                     <!-- TEST  -->
-                    <div>
-                        <?php include_once './Components/test.php'; ?>
-                    </div>
                 </div>
                 <div class="col-8">
                     <!-- Product  -->

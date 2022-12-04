@@ -39,16 +39,28 @@ function run(){
     global $routes;
     global $base_uri;
     $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-    echo 'uri: '.$uri.'<br>';
+    //echo 'uri: '.$uri.'<br>';
     $uris = explode("?", $uri);
     if(count($uris) > 1){
         $uri = $uris[0];
+        //echo 'new uri: '.$uri.'<br>';
         $params = $uris[1];
+
         $firstParam = explode("=", $params);
-        echo 'firstParam0: '.$firstParam[0].'<br>';
-        echo 'firstParam1: '.$firstParam[1].'<br>';
-        if($firstParam[0] == 'pid' && is_numeric($firstParam[1])){
-            $_SESSION["pid"] = $firstParam[1];
+        $firstKey = $firstParam[0];
+        $firstValue = $firstParam[1];
+        //echo 'firstKey: '.$firstKey.'<br>';
+        //echo 'firstValue: '.$firstValue.'<br>';
+        
+        if($firstParam[0] == 'pid'){
+            if(strpos($firstValue, '.') !== false){
+                //echo "firstValue is float<br>";
+                $_SESSION["pid"] = "-1";
+            }
+            else{
+                //echo "firstValue is int: " . is_numeric($firstValue) . "<br>";
+                $_SESSION["pid"] = $firstValue;
+            }
         }
     }
     $lastChar = substr($uri, -1);
