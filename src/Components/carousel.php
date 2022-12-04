@@ -11,8 +11,8 @@ function SingleCarousel($list, $id){
         <div class="carousel-item '.$active.'">
         <img src="'.$value->image.'" class="d-block w-100" style="max-height: 410px;" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h5>First slide label</h5>
-          <p>Some representative placeholder content for the first slide.</p>
+          <h5>'.$value->name.'</h5>
+          <p></p>
         </div>
         </div>
         ';
@@ -97,12 +97,12 @@ function CardList($list){
         //CardInCarousel($list[$index]);
         $res .='
         <div class="col-sm-4">
-            <div class="card border-success mb-3 thumb-wrapper my-cursor-pointer" style="max-width: 16rem;">
-                <img class="card-img-top" height="200px" src="'.$list[$index]->image.'">
+            <div class="card border-success mb-3 thumb-wrapper" style="max-width: 16rem;">
+                <img class="card-img-top my-cursor-pointer" height="200px" src="'.$list[$index]->image.'" onclick="ViewProductDetails('.$list[$index]->id.')">
                 <div class="card-body text-success my-text-align-center">
                     <h5 class="card-title">'.$list[$index]->name.'</h5>
                     <h6 class="card-title">2022-2023</h6>
-                    <button class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping fa-fw my-cart" onclick="ViewProductDetails('.$list[$index]->id.')"></i></button>
+                    <button class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping fa-fw my-cart" onclick="AddToCart('.$list[$index]->id.')"></i></button>
                 </div>
                 <div class="card-footer bg-transparent border-success my-text-align-right">$'.$list[$index]->price.'</div>
             </div>

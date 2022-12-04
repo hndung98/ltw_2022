@@ -29,15 +29,39 @@
             ?>
         </div>
 
-        <!-- Product  -->
-        <div class="my-products">
-            <?php include_once './Components/products.php'; ?>
-        </div>
-
-
         <!-- TEST  -->
-        <div>
-            <?php include_once './Components/test.php'; ?>
+        <div class="container">
+            <h2>Special Control</h2>
+            <div class="d-grid gap-2 d-md-block">
+                <button type="button" class="btn btn-primary mb-3" type="button" onclick="logCart()">Log Cart</button>
+            </div>
+
+            <h2>Danh sách giỏ hàng</h2>
+            <div class="my-space-30px"></div>
+            <table class="table table-bordered border-primary" id="table1">
+                <thead>
+                    <tr>
+                        <th scope="col" class="my-text-align-center">STT</th>
+                        <th scope="col" class="my-text-align-center">Tên sản phẩm</th>
+                        <th scope="col" class="my-text-align-center">Số lượng</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                </tbody>
+            </table>
+
+            <div class="row g-3">
+                <div class="col-6 col-xs-12">
+                    <input type="text" readonly class="form-control-plaintext" style="font-size: 20;" value="Tổng hóa đơn (chưa tính ship):">
+                </div>
+                <div class="col-6 col-xs-12">
+                    <input type="text" class="form-control" id="inputRowNumber" placeholder="enter numbers only">
+                </div>
+            </div>
+            <div class="my-space-30px"></div>
+            <div class="d-grid gap-2 d-md-block">
+                <button type="button" class="btn btn-primary mb-3" type="button" onclick="GetProductsByIds()">Xác nhận mua</button>
+            </div>
         </div>
 
         <!-- Footer  -->

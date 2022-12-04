@@ -1,5 +1,5 @@
 <?php
-$configs = include('./config.php');
+$configs = include_once('./config.php');
 $host = $configs['db_host'];
 $username = $configs['db_username'];
 $password = $configs['db_password'];
@@ -16,17 +16,31 @@ if ($conn->connect_error) {
 
 include './common.php';
 
-if(isset($_GET['action'])){
-    if ($_GET['action'] == "GetAllUser") { GetAllUser(); }
-    if ($_GET['action'] == 'GetNewProducts') { GetNewProducts(); }
-    if ($_GET['action'] == 'GetAppInfo') { GetAppInfo(); }
-    if ($_GET['action'] == 'Login') { Login(); }
+if (isset($_GET['action'])) {
+    if ($_GET['action'] == "GetProductsByIds") {
+        GetProductsByIds();
+    }
+    if ($_GET['action'] == "GetAllUser") {
+        GetAllUser();
+    }
+    if ($_GET['action'] == 'GetNewProducts') {
+        GetNewProducts();
+    }
+    if ($_GET['action'] == 'GetAppInfo') {
+        GetAppInfo();
+    }
+    if ($_GET['action'] == 'Login') {
+        Login();
+    }
 }
-if(isset($_POST['action'])){
-    if ($_POST['action'] == "GetUserInfo") { GetUserInfo(); }
+if (isset($_POST['action'])) {
+    if ($_POST['action'] == "GetUserInfo") {
+        GetUserInfo();
+    }
 }
 
-function GetAppInfo(){
+function GetAppInfo()
+{
     $form_data = array();
     $form_data['success'] = true;
     $form_data['AppName'] = 'BK Shop';
@@ -36,7 +50,8 @@ function GetAppInfo(){
     echo json_encode($form_data);
 }
 
-function Login(){
+function Login()
+{
     $errors = array();
     $form_data = array();
     /* Validate the form on the server side */
@@ -51,13 +66,11 @@ function Login(){
     if (!empty($errors)) { //If errors in validation
         $form_data['success'] = false;
         $form_data['errors']  = $errors;
-    }
-    else { //If not
-        if ($_GET['username'] == 'sa' && $_GET['password'] == '123'){
+    } else { //If not
+        if ($_GET['username'] == 'sa' && $_GET['password'] == '123') {
             $form_data['success'] = true;
             $form_data['msg'] = 'Login successfully';
-        }
-        else{
+        } else {
             $form_data['success'] = false;
             $form_data['msg'] = 'Username or password invalid';
         }
@@ -67,10 +80,11 @@ function Login(){
     echo json_encode($form_data);
 }
 
-function GetNewProducts(){
+function GetNewProducts()
+{
     $errors = array();
     $form_data = array();
-    
+
     $data = array(
         new Suit("0", "Áo PSG sân nhà", "2022", "120 000 VNĐ", ""),
         new Suit("1", "Áo MU sân nhà", "2022", "120 000 VNĐ", ""),
@@ -81,8 +95,7 @@ function GetNewProducts(){
     if (!empty($errors)) { //If errors in validation
         $form_data['success'] = false;
         $form_data['errors']  = $errors;
-    }
-    else{
+    } else {
         $form_data['success'] = true;
         $form_data['data']  = $data;
     }
@@ -91,12 +104,62 @@ function GetNewProducts(){
     echo json_encode($form_data);
 }
 
-function GetAllUser(){
+function GetProductsByIds()
+{
+    global $conn;
+    $errors = array();
+    $form_data = array();
+
+    $data = array();
+
+    $idList = $_GET['idList'];
+    $idListCond = "";
+
+    if ($idList != null) {
+        foreach ($idList as $value) {
+            if ($idListCond == "") {
+                $idListCond = '(' . $value;
+            } else {
+                $idListCond = $idListCond . ', ' . $value;
+            }
+        }
+        $idListCond = $idListCond . ')';
+    }
+
+    if ($idListCond != "") {
+        $sql_query = 'SELECT * FROM product WHERE ProductId IN ' . $idListCond . ';';
+
+        $result = $conn->query($sql_query);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($data, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], $row['Image1']));
+            }
+        } else {
+            // $user_length = -1
+        }
+    } else {
+        $errors['idList'] = 'idList cannot be blank';
+    }
+    
+    if (!empty($errors)) { //If errors in validation
+        $form_data['success'] = false;
+        $form_data['errors']  = $errors;
+    } else {
+        $form_data['success'] = true;
+        $form_data['data']  = $data;
+    }
+
+    //Return data
+    echo json_encode($form_data);
+}
+
+function GetAllUser()
+{
     global $conn;
     $form_data = array();
     $form_data['success'] = true;
 
-    $sql_query = "SELECT * FROM dbo.User;";
+    $sql_query = "SELECT * FROM user;";
     $result = $conn->query($sql_query);
     $user_length = 0;
     if ($result->num_rows > 0) {
@@ -111,7 +174,9 @@ function GetAllUser(){
     //Return data
     echo json_encode($form_data);
 }
-function GetUserInfo(){
+
+function GetUserInfo()
+{
     $errors = array();
     $form_data = array();
     /* Validate the form on the server side */
@@ -122,17 +187,15 @@ function GetUserInfo(){
     if (empty($_POST['password'])) {
         $errors['password'] = 'password cannot be blank';
     }
-    
+
     if (!empty($errors)) { //If errors in validation
         $form_data['success'] = false;
         $form_data['errors']  = $errors;
-    }
-    else { //If not, process the form, and return true on success
+    } else { //If not, process the form, and return true on success
         $form_data['success'] = true;
         $form_data['msg'] = 'Data Was Posted Successfully';
     }
-    
+
     //Return data
     echo json_encode($form_data);
 }
-?>

@@ -50,47 +50,224 @@
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="list-1" role="tabpanel" aria-labelledby="list-1-list">
                             <?php
-                            $listProducts = array(
-                                new Suit("0", "Áo Chelsea sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/chelsea1.jpg"),
-                                new Suit("1", "Áo Real sân nhà", "2022", "130 000 VNĐ", "../Assets/Images/Temp/real1.jpg"),
-                                new Suit("2", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
-                            );
+                            $configs = include_once('./Services/config.php');
+                            $host = $configs['db_host'];
+                            $username = $configs['db_username'];
+                            $password = $configs['db_password'];
+                            $dbname = $configs['db_name'];
+                            // Create connection
+                            $conn = new mysqli($host, $username, $password, $dbname);
+                            // Check connection
+                            if ($conn->connect_error) {
+                                die("Connection failed: " . $conn->connect_error);
+                            }
+                            $listProducts = array();
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = 1 LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
                             SingleCarousel($listProducts, "1");
                             ?>
                         </div>
                         <div class="tab-pane fade" id="list-2" role="tabpanel" aria-labelledby="list-2-list">
                             <?php
-                            $listProducts = array(
-                                new Suit("3", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
-                                new Suit("4", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
-                                new Suit("5", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
-                            );
+                            $listProducts = array();
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = 2 LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
                             SingleCarousel($listProducts, "2");
                             ?>
                         </div>
                         <div class="tab-pane fade" id="list-3" role="tabpanel" aria-labelledby="list-3-list">
-                            <p>list-3-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 3;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-4" role="tabpanel" aria-labelledby="list-4-list">
-                            <p>list-4-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 4;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-5" role="tabpanel" aria-labelledby="list-5-list">
-                            <p>list-5-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 5;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-6" role="tabpanel" aria-labelledby="list-6-list">
-                            <p>list-6-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 6;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-7" role="tabpanel" aria-labelledby="list-7-list">
-                            <p>list-7-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 7;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-8" role="tabpanel" aria-labelledby="list-8-list">
-                            <p>list-8-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 8;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-9" role="tabpanel" aria-labelledby="list-9-list">
-                            <p>list-9-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 9;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                         <div class="tab-pane fade" id="list-10" role="tabpanel" aria-labelledby="list-10-list">
-                            <p>list-10-list</p>
+                            <?php
+                            $listProducts = array();
+                            $cid = 10;
+
+                            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ' LIMIT 3;';
+
+                            $result = $conn->query($sql_query);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                                }
+                            } else {
+                                // $user_length = -1
+                            }
+                            if (count($listProducts) > 0) {
+                                SingleCarousel($listProducts, $cid);
+                            } else {
+                                echo '<p>Chưa có sản phẩm nào</p>';
+                            }
+                            ?>
                         </div>
                     </div>
                     <button class="btn btn-link">Xem thêm</button>
