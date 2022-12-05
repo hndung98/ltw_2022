@@ -49,14 +49,37 @@ function SingleCarousel($list, $id){
 function Carousel($list, $id, $name="carousel name"){
     $MAX_ITEM = 3;
     $MAX_PANEL = 5;
+    $listLength = count($list);
 
-    $printStr = '';
-    $isActive = true;
-    $active = 'active';
-    $temp = array();
-    foreach ($list as $value) {
-        array_push($temp, $value);
-        if (count($temp) == $MAX_ITEM) {
+    if($listLength > 0){
+        $printStr = '';
+        $isActive = true;
+        $active = 'active';
+        $temp = array();
+        foreach ($list as $value) {
+            array_push($temp, $value);
+            if (count($temp) == $MAX_ITEM) {
+                $printStr .= Panel($temp, $active);
+                $temp = array();
+                if($isActive == true){
+                    $active = '';
+                    $isActive = false;
+                }
+            }
+        }
+        
+        if(count($temp) > 0){
+            array_push($temp, $list[0]);
+
+            if(count($temp) < 3){
+                if(count($list) > 1){
+                    array_push($temp, $list[1]);
+                }
+                else{
+                    array_push($temp, $list[0]);
+                }
+            }
+            
             $printStr .= Panel($temp, $active);
             $temp = array();
             if($isActive == true){
@@ -64,30 +87,35 @@ function Carousel($list, $id, $name="carousel name"){
                 $isActive = false;
             }
         }
-    }
+        
     
-
-    echo'
-    <div class="row">
-        <h2 class="my-text-align-center my-carousel-tag-name">'.$name.'</h2>
-        <div class="col-md-10 mx-auto">
-            <div id="carouselExampleCaptions'.$id.'" class="carousel carousel-dark slide" data-bs-ride="false">
-                <div class="carousel-inner">
-                    '.$printStr.'
+        echo'
+        <div class="row">
+            <h2 class="my-text-align-center my-carousel-tag-name">'.$name.'</h2>
+            <div class="col-md-10 mx-auto">
+                <div id="carouselExampleCaptions'.$id.'" class="carousel carousel-dark slide" data-bs-ride="false">
+                    <div class="carousel-inner">
+                        '.$printStr.'
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions'.$id.'" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions'.$id.'" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions'.$id.'" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions'.$id.'" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
-    </div>
+    
+        ';
 
-    ';
+    }
+    else{
+        echo '<h4>Mục này không có sản phẩm</h4>';
+    }
+
 }
 
 function CardList($list){
