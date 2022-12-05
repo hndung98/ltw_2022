@@ -21,7 +21,7 @@ include_once "./Services/common.php";
                 </ul>
             </div>
 
-            <button type="button" id="btn-login" class="btn btn-outline-primary me-2 my-text-color-white my-border-color-white" onclick="Login()">Đăng nhập</button>
+            <button type="button" id="btn-login" class="btn btn-outline-primary me-2 my-text-color-white my-border-color-white"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Đăng nhập</button>
             <div class="dropdown text-end" id="div-avatar">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
@@ -56,7 +56,7 @@ include_once "./Services/common.php";
                         </div>
                     </div>
                     <div class="col-3 col-sm-3">
-                        <button class="btn btn-outline-primary my-border-none"><i class="fa-solid fa-cart-shopping" ></i></button>
+                        <button class="btn btn-outline-primary my-border-none" onclick="location.href ='/assignment/cart/'"><i class="fa-solid fa-cart-shopping"></i></button>
                         <button class="btn btn-outline-primary my-border-none"><i class="fa-solid fa-bell"></i></button>
                         <button class="btn btn-outline-primary my-border-none"><i class="fa-solid fa-user" ></i></button>
                     </div>
@@ -67,3 +67,4 @@ include_once "./Services/common.php";
 </header>
 <script language="javascript" type="text/javascript">
 </script>
+

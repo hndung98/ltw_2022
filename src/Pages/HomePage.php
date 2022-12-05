@@ -29,6 +29,12 @@
             include_once './Components/menu.php';
             ?>
         </div>
+        <!-- Sign in Modal -->
+        <?php
+            include_once './Components/sign-up-modal.php';
+            SignUpDialog();
+        ?>
+
         <div class="my-space-10px"></div>
         <div class="container text-center">
             <div class="row" style="min-height: 440px;background-color: azure;">
@@ -274,6 +280,7 @@
                 </div>
             </div>
         </div>
+
         <div class="my-space-30px"></div>
         <div class="container text-center">
             <div class="row">
@@ -333,7 +340,8 @@
             $listBestProducts = array(
                 new Suit("12", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
                 new Suit("13", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
-                new Suit("14", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
+                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
+                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg")
             );
             echo '<div class="my-space-30px"></div>';
             Carousel($listDiscountProducts, "1", "Sản phẩm đang giảm giá");

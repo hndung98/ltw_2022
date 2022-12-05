@@ -23,7 +23,7 @@ function Init() {
 }
 
 function updateMenuActive() {
-  let menus = ["home", "product", "about"];
+  let menus = ["home", "product", "about", "cart"];
   let url = document.URL.split("/");
   let i = url.findIndex((element) => menus.findIndex((e) => e == element) > -1);
   console.log("i: ", i);
