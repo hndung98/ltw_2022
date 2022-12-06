@@ -17,6 +17,21 @@ include_once "./Services/AppServices.php";
 
 <body>
     <script>
+    function AddForm() {
+        $.ajax({
+            type: "GET",
+            url: "../Services/AppServices.php",
+            data: {
+                action: 'AddForm'
+            },
+        }).done(function(res) {
+            console.log("AddForm Successful ");
+            /*let data = JSON.parse(res);
+            console.log('DeleteUser: ', data);*/
+            location.reload();
+        });
+    }
+
     function DeleteUser(userid) {
         $.ajax({
             type: "GET",
@@ -29,10 +44,12 @@ include_once "./Services/AppServices.php";
             console.log("DeleteUser Successful ");
             let data = JSON.parse(res);
             console.log('DeleteUser: ', data);
+            location.reload();
         });
     }
 
     function EditUser(userid) {
+        update = true;
         $.ajax({
             type: "GET",
             url: "../Services/AppServices.php",
@@ -42,14 +59,15 @@ include_once "./Services/AppServices.php";
             },
         }).done(function(res) {
             console.log("EditUser Successful ");
-            let data = JSON.parse(res);
-            console.log('EditUser: ', data);
+            //let data = JSON.parse(res);
+            //console.log('EditUser: ', data);
+            location.reload();
         });
     }
     </script>
     <?php
     if (isset($_SESSION['message'])) : ?>
-    <div class="alert alert-<?= $_SESSION['messageType'] ?>">
+    <div class="alert alert-dismissible alert-<?= $_SESSION['messageType'] ?>">
         <?php
             echo $_SESSION['message'];
             unset($_SESSION['message']);
@@ -112,8 +130,8 @@ include_once "./Services/AppServices.php";
                             </td>
                             <td><?php echo $row_data['CreatedDateTime']; ?></td>
                             <td>
-                                <a class='btn btn-success btn-sm
-                                        ' href="profile.php?id=<?php echo $row_data['UserId']; ?>">View</a>
+                                <!--<a class='btn btn-success btn-sm
+                                        ' href="profile.php?id=<?php echo $row_data['UserId']; ?>">View</a>-->
                                 <button onclick="EditUser(<?php echo $row_data['UserId']; ?>)"> Edit </button>
                                 <button onclick="DeleteUser(<?php echo $row_data['UserId']; ?>)"> Delete </button>
                                 <?php
@@ -126,48 +144,56 @@ include_once "./Services/AppServices.php";
                         </td>
                         </tr>
 
-                        <a class='btn btn-success btn-sm ' href='AddUser.php'>Add Acount</a>
+                        <button onclick="AddForm()"> Add account </button>
 
                     </tbody>
 
                 </table>
             </div>
-
+            <?php
+            if ((isset($_SESSION['add']) && $_SESSION['add'] == true) || (isset($_SESSION['update']) && $_SESSION['update'] == true)) :
+            ?>
             <div class="row justify-content-center">
                 <form action="/assignment/appService/" method="POST">
                     <div class="form-group pt-3">
                         <label for="name">Account Name:</label>
-                        <input type="text" value="<?php echo $username; ?>" name="name" class="form-control"
-                            placeholder="User Name">
+                        <input type="text" value="<?php if ($_SESSION['update']) echo $_SESSION['info']['userName']; ?>"
+                            name="name" class="form-control" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label for="firstName">Your First Name:</label>
-                        <input type="text" value="<?php echo $firstname; ?>" name="firstName" class="form-control"
-                            placeholder="First Name">
+                        <input type="text"
+                            value="<?php if ($_SESSION['update']) echo $_SESSION['info']['firstName']; ?>"
+                            name="firstName" class="form-control" placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="lastName">Your Last Name:</label>
-                        <input type="text" value="<?php echo $lastname; ?>" name="lastName" class="form-control">
+                        <input type="text" value="<?php if ($_SESSION['update']) echo $_SESSION['info']['lastName']; ?>"
+                            name="lastName" class="form-control" placeholder="Last Name">
                     </div>
                     <div class="form-group">
                         <label for="email">Email address:</label>
-                        <input type="email" value="<?php echo $email; ?>" name="email" class="form-control">
+                        <input type="email" value="<?php if ($_SESSION['update']) echo $_SESSION['info']['email']; ?>"
+                            name="email" class="form-control" placeholder="Email">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number:</label>
-                        <input type="text" value="<?php echo $phone; ?>" name="phone" class="form-control">
+                        <input type="text" value="<?php if ($_SESSION['update']) echo $_SESSION['info']['phone']; ?>"
+                            name="phone" class="form-control" placeholder="Phone Number">
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" name="password" class="form-control">
+                        <input type="password"
+                            value="<?php if ($_SESSION['update']) echo $_SESSION['info']['password']; ?>"
+                            name="password" class="form-control" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <label for="userType">User Role:</label>
                         <select class="form-control" name="userType" id="userType">
+                            <option value="none" selected disabled hidden>Select role</option>
                             <option value="1">Admin</option>
                             <option value="2">Employee</option>
                             <option value="3">Customer</option>
-
                         </select>
                     </div>
                     <div class="form-group">
@@ -181,7 +207,7 @@ include_once "./Services/AppServices.php";
                     <div class="form-group">
                         <label for="birthday">Birthday:</label><br>
                         <label for="month">Month:</label>
-                        <select class="form-control" name="month" id="month">
+                        <select name="month" id="month">
                             <option value="0"></option>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -197,29 +223,36 @@ include_once "./Services/AppServices.php";
                             <option value="12">December</option>
                         </select>
                         <label for="day">Day:</label>
-                        <select class="form-control" name="day" id="day">
+                        <select name="day" id="day">
                             <option value="0"></option>
                             <?php
-                            for ($i = 1; $i <= 31; $i++) {
-                                echo "<option value='$i'>$i</option>";
-                            }
-                            ?>
+                                for ($i = 1; $i <= 31; $i++) {
+                                    echo "<option value='$i'>$i</option>";
+                                }
+                                ?>
                         </select>
                         <label for="year">Year:</label>
-                        <select class="form-control" name="year" id="year">
+                        <select name="year" id="year">
                             <option value="0"></option>
                             <?php
-                            for ($i = 1930; $i <= date("Y"); $i++) {
-                                echo "<option value='$i'>$i</option>";
-                            }
-                            ?>
+                                for ($i = 1930; $i <= date("Y"); $i++) {
+                                    echo "<option value='$i'>$i</option>";
+                                }
+                                ?>
                         </select>
                     </div>
                     <div class="form-group">
+                        <?php
+                            if ($_SESSION['update'] == true) :
+                            ?>
+                        <button type="submit" name="update" class="btn btn-info">Update</button>
+                        <?php else : ?>
                         <button type="submit" name="addUser" class="btn btn-success">Register</button>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>
+            <?php endif; ?>
 
             <!-- Footer  -->
             <div class="container my-bg-color-footer">
