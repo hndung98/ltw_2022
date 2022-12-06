@@ -35,9 +35,9 @@
         <div class="container">
             <?php include_once './Components/carousel.php';
             $list = array(
-                new Suit("0", "Áo MU sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/MU.jpg"),
-                new Suit("0", "Áo MC sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/MC.jpg"),
-                new Suit("0", "Áo Ars sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Ars.jpg")
+                new Suit("0", "Áo MU sân nhà", "2022", "120 000", "../Assets/Images/MU.jpg"),
+                new Suit("0", "Áo MC sân nhà", "2022", "120 000", "../Assets/Images/MC.jpg"),
+                new Suit("0", "Áo Ars sân nhà", "2022", "120 000", "../Assets/Images/Ars.jpg")
             );
             Carousel($list, "1");
             ?>

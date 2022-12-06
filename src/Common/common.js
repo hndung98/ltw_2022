@@ -14,8 +14,8 @@ function Init() {
 
   updateMenuActive();
 
-  let username = localStorage.getItem("username");
-  if (username) {
+  let uid = localStorage.getItem("uid");
+  if (uid) {
     UpdateLogin(true);
   } else {
     UpdateLogin(false);
@@ -37,10 +37,376 @@ function updateMenuActive() {
       if (element == url[i]) {
         menuItemElement.classList?.add("active");
       }
+      if (element == "cart"){
+        console.log("CART_PAGE");
+        logCart();
+      }
     });
   }
 }
 
+function GetProductsByIds() {
+  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
+
+  $.ajax({
+    type: "GET",
+    url: "../Services/AppServices.php",
+    data: { action: "GetProductsByIds", idList: cart_id },
+  }).done(function (res) {
+    console.log("GetProductsByIds Successful ");
+    let data = JSON.parse(res);
+    console.log("GetProductsByIds: ", data);
+  });
+}
+
+///////Features
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function validateEmail(email){
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+///////
+
+function CheckSignUp(){
+  let usernameElement = document.getElementById("validationCustomUsername2");
+  let passwordElement = document.getElementById("validationCustomPassword2");
+  let phoneElement = document.getElementById("validationCustomPhone");
+  let emailElement = document.getElementById("validationCustomEmail");
+  let firstNameElement = document.getElementById("validationCustomFirstName");
+  let lastNameElement = document.getElementById("validationCustomLastName");
+  let gender = $('#validationCustomGender input:radio:checked').val();
+
+  let username = usernameElement.value;
+  let password = passwordElement.value;
+  let phone = phoneElement.value;
+  let email = emailElement.value;
+  let firstName = firstNameElement.value;
+  let lastName = lastNameElement.value;
+  console.log("username: ", username);
+  console.log("password: ", password);
+  console.log("phone: ", phone);
+  console.log("email: ", email);
+  console.log("firstName: ", firstName);
+  console.log("lastName: ", lastName);
+  console.log("gender: ", gender);
+  
+  if (phone) {
+    if (email) {
+      if(!validateEmail(email)){
+        emailElement.focus();
+        showRedToast("Email không hợp lệ");
+      }
+      else if (firstName) {
+        if (lastName) {
+          if (username) {
+            if (password) {
+              SignUp(username, password, phone, email, firstName, lastName, gender);
+            } else {
+              passwordElement.focus();
+            }
+          } else {
+            usernameElement.focus();
+          }
+        } else {
+          lastNameElement.focus();
+        }
+      } else {
+        firstNameElement.focus();
+      }
+    } else {
+      emailElement.focus();
+    }
+  }
+  else{
+    phoneElement.focus();
+  }
+}
+
+function SignUp(username, password, phone, email, firstName, lastName, gender) {
+  $.ajax({
+    type: "POST",
+    url: "../Services/AppServices.php",
+    data: {
+      action: "SignUp",
+      username: username,
+      password: password,
+      phone: phone,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+    },
+  }).done(function (res) {
+    let data = JSON.parse(res);
+    console.log("data: ", data);
+    if (data.success) {
+      $("#staticBackdrop2").modal("hide");
+      $("#signUpForm")[0].reset();
+      showToast("Đăng ký thành công");
+    }
+    else{
+      if(data.errors){
+        let msg = '';
+        if(data.errors.Username){
+          msg += ' Tên đăng nhập';
+        }
+        if(data.errors.Email){
+          msg += ' Email';
+        }
+        if(data.errors.Phone){
+          msg += ' SĐT';
+        }
+        showRedToast(msg + ' đã tồn tại.');
+      }
+    }
+  });
+}
+
+function CheckLogin(){
+  let usernameElement = document.getElementById("validationCustomUsername");
+  let passwordElement = document.getElementById("validationCustomPassword");
+
+  let username = usernameElement.value;
+  let password = passwordElement.value;
+  console.log("username: ", username);
+  console.log("password: ", password);
+  if(username && password){
+    Login(username, password);
+  }
+}
+
+function Login(username, password) {
+  // console.log("[url]", window.location.href);
+  // console.log("[document.URL]", document.URL);
+  // console.log("[Click Login]");
+  $.ajax({
+    type: "GET",
+    url: "../Services/AppServices.php",
+    data: { action: "Login", username: username, password: password },
+  }).done(function (res) {
+    let data = JSON.parse(res);
+    console.log("data: ", data);
+    if(data.success){
+      $('#staticBackdrop').modal('hide');
+      $('#signInForm')[0].reset();
+      localStorage.setItem("uid", data.user.id);
+      UpdateLogin(true);
+    }
+  });
+}
+
+function Logout() {
+  console.log("[Click Logout]");
+  localStorage.removeItem("uid");
+  UpdateLogin(false);
+}
+
+$("#btn-login").click(function () {
+  console.log("login clicked");
+});
+
+function UpdateLogin(isLogin) {
+  if (isLogin) {
+    document.getElementById("btn-login").style.display = "none";
+    document.getElementById("div-avatar").style.display = "inline";
+  } else {
+    document.getElementById("btn-login").style.display = "inline";
+    document.getElementById("div-avatar").style.display = "none";
+  }
+}
+
+function ViewProductDetails(id) {
+  console.log("log something: ", id);
+  location.href = "/assignment/product/?pid=" + id;
+}
+
+function AddToCart(pid, name, price) {
+  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
+  let cart_name = JSON.parse(localStorage.getItem("cart_name"));
+  let cart_price = JSON.parse(localStorage.getItem("cart_price"));
+  let cart_number = JSON.parse(localStorage.getItem("cart_number"));
+
+  if (cart_id) {
+    if (!cart_id.includes(pid)) {
+      cart_id.push(pid);
+      cart_name.push(name);
+      cart_price.push(price);
+      cart_number.push(1);
+    } else {
+      let index = cart_id.indexOf(pid);
+      cart_number[index] = cart_number[index] + 1;
+    }
+  } else {
+    cart_id = [];
+    cart_name = [];
+    cart_price = [];
+    cart_number = [];
+    cart_id.push(pid);
+    cart_name.push(name);
+    cart_price.push(price);
+    cart_number.push(1);
+  }
+
+  localStorage.setItem("cart_id", JSON.stringify(cart_id));
+  localStorage.setItem("cart_name", JSON.stringify(cart_name));
+  localStorage.setItem("cart_price", JSON.stringify(cart_price));
+  localStorage.setItem("cart_number", JSON.stringify(cart_number));
+
+  cart_id = JSON.parse(localStorage.getItem("cart_id"));
+  cart_name = JSON.parse(localStorage.getItem("cart_name"));
+  cart_price = JSON.parse(localStorage.getItem("cart_price"));
+  cart_number = JSON.parse(localStorage.getItem("cart_number"));
+  console.log("cart_id: ", cart_id);
+  console.log("cart_name: ", cart_name);
+  console.log("cart_price: ", cart_price);
+  console.log("cart_number: ", cart_number);
+  showToast();
+}
+
+function logCart() {
+  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
+  let cart_name = JSON.parse(localStorage.getItem("cart_name"));
+  let cart_price = JSON.parse(localStorage.getItem("cart_price"));
+  let cart_number = JSON.parse(localStorage.getItem("cart_number"));
+
+  console.log("cart_id: ", cart_id);
+  console.log("cart_number: ", cart_number);
+
+  let rowLength = 0;
+  let colLength = 5;
+  
+  if(cart_id){
+    rowLength = cart_id.length;
+  }
+
+  let table = document.getElementById("table1");
+  let totalPrice = 0;
+
+  if(table){
+    for(let rowIndex = 0; rowIndex < rowLength; rowIndex++){
+      let row = table.insertRow(rowIndex+1);
+      for (let i = 0; i < colLength; i++) {
+        let currentCell = row.insertCell(i);
+        currentCell.classList.add("align-middle");
+        if(i == 0){
+          let text = document.createElement("button");
+          text.setAttribute("type", "button");
+          text.innerHTML = (rowIndex+1).toString();
+          text.classList.add("btn","btn-outline-success");
+          text.disabled = true;
+          text.style.border = "none";
+          currentCell.style.textAlign= "center"; 
+          currentCell.style.width = "10%";
+          currentCell.appendChild(text);
+        }
+        else if (i == 1) { // Tên SP
+          let text = document.createElement("button");
+          text.setAttribute("type", "button");
+          text.classList.add("btn", "btn-outline-success");
+          text.disabled = true;
+          text.style.border = "none";
+          text.innerHTML = "" + cart_name[rowIndex];
+          currentCell.style.width = "50%";
+          currentCell.appendChild(text);
+        }
+        else if (i == 2) { // Đơn giá
+          let text = document.createElement("button");
+          text.setAttribute("type", "button");
+          text.classList.add("btn", "btn-outline-success");
+          text.disabled = true;
+          text.style.border = "none";
+          text.innerHTML = "" + numberWithCommas(parseInt(cart_price[rowIndex].replaceAll(' ', '')));
+          currentCell.style.width = "15%";
+          currentCell.appendChild(text);
+          currentCell.classList.add("my-text-align-right");
+        }
+        else if (i == 3) { // Số lượng
+          let divElement = document.createElement("div");
+          divElement.classList.add("form-outline");
+  
+          let inputElement = document.createElement("input");
+          inputElement.setAttribute("type", "number");
+          inputElement.classList.add("form-control", "my-text-align-center");
+          inputElement.id = "typeNumber_" + rowIndex;
+          inputElement.value = "" + cart_number[rowIndex];
+          inputElement.min = "0";
+          inputElement.max = "50";
+          
+          inputElement.addEventListener('change', (event) => {
+            // console.log('event.target.value: ', event.target.value);
+            let currentRowIndex = event.target.id.split('_')[1];
+            let cart_number = JSON.parse(localStorage.getItem("cart_number"));
+            let cart_price = JSON.parse(localStorage.getItem("cart_price"));
+            cart_number[currentRowIndex] = event.target.value;
+            localStorage.setItem("cart_number", JSON.stringify(cart_number));
+
+            let totalRowElement = document.getElementById("totalPriceRow_" + currentRowIndex);
+            totalRowElement.innerHTML = "" + numberWithCommas((parseInt(cart_price[currentRowIndex].replaceAll(' ', '')))*(parseInt(cart_number[currentRowIndex])));
+
+            let totalPriceElement = document.getElementById("totalPrice");
+            totalPriceElement.value = "Tổng hóa đơn (chưa tính ship): " + numberWithCommas(getTotalPrice()) + " đồng";
+            // console.log('currentRowIndex: ', currentRowIndex);
+            // const result = document.querySelector('.result');
+            // result.textContent = `You like ${event.target.value}`;
+          });
+  
+          divElement.appendChild(inputElement);
+  
+          currentCell.style.width = "10%";
+          currentCell.appendChild(divElement);
+        }
+        else { // Thành tiền
+          let text = document.createElement("button");
+          text.setAttribute("type", "button");
+          text.classList.add("btn", "btn-outline-success");
+          text.id = "totalPriceRow_" + rowIndex;
+          text.disabled = true;
+          text.style.border = "none";
+          let totalPriceRow = (parseInt(cart_price[rowIndex].replaceAll(' ', '')))*(parseInt(cart_number[rowIndex]));
+          totalPrice += totalPriceRow;
+          text.innerHTML = "" + numberWithCommas(totalPriceRow);
+          currentCell.style.width = "15%";
+          currentCell.classList.add("my-text-align-right");
+          currentCell.appendChild(text);
+        }
+      }
+    }
+  }
+  let totalPriceElement = document.getElementById("totalPrice");
+  totalPriceElement.value = "Tổng hóa đơn (chưa tính ship): " + numberWithCommas(totalPrice) + " đồng";
+}
+function getTotalPrice(){
+  cart_price = JSON.parse(localStorage.getItem("cart_price"));
+  cart_number = JSON.parse(localStorage.getItem("cart_number"));
+  let totalPrice = 0;
+  for(let i = 0; i < cart_price.length; i++){
+    totalPrice += (parseInt(cart_price[i].replaceAll(' ', '')))*(parseInt(cart_number[i]));
+  }
+  return totalPrice;
+}
+
+function showToast(msg=""){
+  const toastLiveExample = document.getElementById('liveToast');
+  if (msg != "") {
+    const msgElement = document.getElementById("toast-msg");
+    msgElement.innerHTML = msg;
+  }
+  const toast = new bootstrap.Toast(toastLiveExample)
+  toast.show();
+}
+
+function showRedToast(msg){
+  const toastLiveExample = document.getElementById('liveRedToast');
+  const msgElement = document.getElementById('red-toast-msg');
+  msgElement.innerHTML = msg;
+  const toast = new bootstrap.Toast(toastLiveExample);
+  toast.show();
+}
+
+//////////////////////////// TEST
 function ResizeWindow(event) {
   let width = document.documentElement.clientWidth;
   console.log("clientWidth: ", width);
@@ -57,12 +423,6 @@ function ResizeWindow(event) {
 }
 
 function Test() {
-  let username = localStorage.getItem("username");
-  if (username) {
-    console.log("you are logged in: ", username);
-  } else {
-    console.warn("You are not logged in");
-  }
 }
 
 function GetAllUser() {
@@ -89,20 +449,6 @@ function GetNewProducts() {
   });
 }
 
-function GetProductsByIds() {
-  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
-
-  $.ajax({
-    type: "GET",
-    url: "../Services/AppServices.php",
-    data: { action: "GetProductsByIds", idList: cart_id },
-  }).done(function (res) {
-    console.log("GetProductsByIds Successful ");
-    let data = JSON.parse(res);
-    console.log("GetProductsByIds: ", data);
-  });
-}
-
 function GetUserInfo() {
   $.ajax({
     type: "POST",
@@ -114,150 +460,4 @@ function GetUserInfo() {
     console.log("GetUserInfo: ", data);
   });
 }
-
-function Login() {
-  console.log("[url]", window.location.href);
-  console.log("[document.URL]", document.URL);
-  console.log("[Click Login]");
-  $.ajax({
-    type: "GET",
-    url: "../Services/AppServices.php",
-    data: { action: "Login", username: "sa", password: "1" },
-  }).done(function (res) {
-    localStorage.setItem("username", "Dung");
-    UpdateLogin(true);
-    console.log("Login: ", res);
-
-    // let data = JSON.parse(res);
-    // if(data.success){
-    // }
-  });
-}
-
-function Logout() {
-  console.log("[Click Logout]");
-  localStorage.removeItem("username");
-  UpdateLogin(false);
-}
-
-$("#btn-login").click(function () {
-  console.log("login clicked");
-});
-
-function UpdateLogin(isLogin) {
-  if (isLogin) {
-    document.getElementById("btn-login").style.display = "none";
-    document.getElementById("btn-signup").style.display = "none";
-    document.getElementById("div-avatar").style.display = "inline";
-  } else {
-    document.getElementById("div-avatar").style.display = "none";
-    document.getElementById("btn-login").style.display = "inline";
-    document.getElementById("btn-signup").style.display = "inline";
-  }
-}
-
-function ViewProductDetails(id) {
-  console.log("log something: ", id);
-  location.href = "/assignment/product/?pid=" + id;
-}
-
-function AddToCart(pid) {
-  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
-  let cart_number = JSON.parse(localStorage.getItem("cart_number"));
-
-  if (cart_id) {
-    if (!cart_id.includes(pid)) {
-      cart_id.push(pid);
-      cart_number.push(1);
-    } else {
-      let index = cart_id.indexOf(pid);
-      cart_number[index] = cart_number[index] + 1;
-    }
-  } else {
-    cart_id = [];
-    cart_number = [];
-    cart_id.push(pid);
-    cart_number.push(1);
-  }
-
-  localStorage.setItem("cart_id", JSON.stringify(cart_id));
-  localStorage.setItem("cart_number", JSON.stringify(cart_number));
-
-  cart_id = JSON.parse(localStorage.getItem("cart_id"));
-  cart_number = JSON.parse(localStorage.getItem("cart_number"));
-  console.log("cart_id: ", cart_id);
-  console.log("cart_number: ", cart_number);
-}
-
-function logCart() {
-  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
-  let cart_number = JSON.parse(localStorage.getItem("cart_number"));
-
-  console.log("cart_id: ", cart_id);
-  console.log("cart_number: ", cart_number);
-
-  let rowLength = 0;
-  let colLength = 3;
-  
-  if(cart_id){
-    rowLength = cart_id.length;
-  }
-
-  let table = document.getElementById("table1");
-
-  for(let rowIndex = 0; rowIndex < rowLength; rowIndex++){
-    let row = table.insertRow(rowIndex+1);
-    for (let i = 0; i < colLength; i++) {
-      let currentCell = row.insertCell(i);
-      if(i == 0){
-        let text = document.createElement("button");
-        text.setAttribute("type", "button");
-        text.innerHTML = (rowIndex+1).toString();
-        text.classList.add("btn","btn-outline-success");
-        text.disabled = true;
-        text.style.border = "none";
-        currentCell.style.textAlign= "center"; 
-        currentCell.style.width = "10%";
-        currentCell.appendChild(text);
-      }
-      else if(i == 1){
-        let text = document.createElement("button");
-        text.setAttribute("type", "button");
-        text.classList.add("btn","btn-outline-success");
-        text.disabled = true;
-        text.style.border = "none";
-        text.innerHTML = cart_id[rowIndex];
-        currentCell.style.width = "60%";
-        currentCell.appendChild(text);
-      }
-      else{
-        let buttonMinus = document.createElement("button");
-        buttonMinus.setAttribute("type", "button");
-        buttonMinus.innerHTML = "-";
-        buttonMinus.classList.add("btn","btn-outline-warning");
-        buttonMinus.style.width = "30%";
-        
-        let buttonQuantity = document.createElement("button");
-        buttonQuantity.setAttribute("type", "button");
-        buttonQuantity.innerHTML = cart_number[rowIndex];
-        buttonQuantity.classList.add("btn","btn-outline-success");
-        buttonQuantity.style.width = "30%";
-        buttonQuantity.disabled = true;
-        buttonQuantity.style.border = "none";
-        
-        let buttonAdd = document.createElement("button");
-        buttonAdd.setAttribute("type", "button");
-        buttonAdd.innerHTML = "+";
-        buttonAdd.classList.add("btn","btn-outline-success");
-        buttonAdd.style.width = "30%";
-
-        currentCell.style.width = "30%";
-        currentCell.appendChild(buttonMinus);
-        currentCell.appendChild(buttonQuantity);
-        currentCell.appendChild(buttonAdd);
-      }
-
-
-    }
-  }
-}
+//////////////////////////// 

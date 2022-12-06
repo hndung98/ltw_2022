@@ -31,8 +31,16 @@
         </div>
         <!-- Sign in Modal -->
         <?php
-            include_once './Components/sign-up-modal.php';
-            SignUpDialog();
+        include_once './Components/sign-in-modal.php';
+        SignInDialog();
+        SignUpDialog();
+        SuccessSignUpDialog();
+        ?>
+        <!-- Sign in Modal -->
+        <?php
+        include_once './Components/toast.php';
+        showToast("Thông báo","Đã thêm vào giỏ hàng");
+        showRedToast("Thông báo","Error");
         ?>
 
         <div class="my-space-10px"></div>
@@ -322,26 +330,26 @@
             <?php
 
             $listDiscountProducts = array(
-                new Suit("0", "Áo Chelsea sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/chelsea1.jpg"),
-                new Suit("1", "Áo Real sân nhà", "2022", "130 000 VNĐ", "../Assets/Images/Temp/real1.jpg"),
-                new Suit("2", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("3", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
-                new Suit("4", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
-                new Suit("5", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg"),
+                new Suit("0", "Áo Chelsea sân nhà", "2022", "120 000", "../Assets/Images/Temp/chelsea1.jpg"),
+                new Suit("1", "Áo Real sân nhà", "2022", "130 000", "../Assets/Images/Temp/real1.jpg"),
+                new Suit("2", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
+                new Suit("3", "Áo Chelsea sân khách", "2022", "110 000", "../Assets/Images/Temp/chelsea2.jpg"),
+                new Suit("4", "Áo Real sân khách", "2022", "110 000", "../Assets/Images/Temp/real2.jpg"),
+                new Suit("5", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg"),
             );
             $listNewProducts = array(
-                new Suit("6", "Áo MU sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/MU1.jpg"),
-                new Suit("7", "Áo Real sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/real1.jpg"),
-                new Suit("8", "Áo Barca sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/barca1.jpg"),
-                new Suit("9", "Áo MC sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/MC1.jpg"),
-                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg")
+                new Suit("6", "Áo MU sân nhà", "2022", "120 000", "../Assets/Images/Temp/MU1.jpg"),
+                new Suit("7", "Áo Real sân nhà", "2022", "120 000", "../Assets/Images/Temp/real1.jpg"),
+                new Suit("8", "Áo Barca sân nhà", "2022", "120 000", "../Assets/Images/Temp/barca1.jpg"),
+                new Suit("9", "Áo MC sân nhà", "2022", "120 000", "../Assets/Images/Temp/MC1.jpg"),
+                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
+                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg")
             );
             $listBestProducts = array(
-                new Suit("12", "Áo Chelsea sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/chelsea2.jpg"),
-                new Suit("13", "Áo Real sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/real2.jpg"),
-                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000 VNĐ", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000 VNĐ", "../Assets/Images/Temp/arsenal2.jpg")
+                new Suit("12", "Áo Chelsea sân khách", "2022", "110 000", "../Assets/Images/Temp/chelsea2.jpg"),
+                new Suit("13", "Áo Real sân khách", "2022", "110 000", "../Assets/Images/Temp/real2.jpg"),
+                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
+                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg")
             );
             echo '<div class="my-space-30px"></div>';
             Carousel($listDiscountProducts, "1", "Sản phẩm đang giảm giá");

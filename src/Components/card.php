@@ -5,7 +5,7 @@ function Card(Suit $item){
             <img class="card-img-top  my-cursor-pointer" height="200px" src="'.$item->image.'" >
             <div class="card-body text-success my-text-align-center">
                 <h5 class="card-title">'.$item->name.'</h5>
-                <button class="btn btn-outline-primary" onclick="AddToCart('.$item->id.')">Buy now</button>
+                <button class="btn btn-outline-primary" onclick="AddToCart('.$item->id.',\''.$item->name.'\',\''.$item->price.'\'")">Buy now</button>
             </div>
             <div class="card-footer bg-transparent border-success my-text-align-right">$'.$item->price.'</div>
         </div>

@@ -28,6 +28,24 @@ class Suit
     }
 }
 
+class UserInfo
+{
+    public $id;
+    public $fname;
+    public $lname;
+    public $phone;
+    public $email;
+
+    function __construct($id, $fname, $lname, $phone, $email)
+    {
+        $this->id = $id;
+        $this->fname = $fname;
+        $this->lname = $lname;
+        $this->phone = $phone;
+        $this->email = $email;
+    }
+}
+
 // function includeFileWithVariables($fileName, $variables)
 // {
 //   extract($variables);

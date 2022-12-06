@@ -130,7 +130,7 @@ function CardList($list){
                 <div class="card-body text-success my-text-align-center">
                     <h5 class="card-title">'.$list[$index]->name.'</h5>
                     <h6 class="card-title">2022-2023</h6>
-                    <button class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping fa-fw my-cart" onclick="AddToCart('.$list[$index]->id.')"></i></button>
+                    <button class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping fa-fw my-cart" onclick="AddToCart('.$list[$index]->id.',\''.$list[$index]->name.'\',\''.$list[$index]->price.'\')"></i></button>
                 </div>
                 <div class="card-footer bg-transparent border-success my-text-align-right">$'.$list[$index]->price.'</div>
             </div>

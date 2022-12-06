@@ -43,7 +43,9 @@
                     <tr>
                         <th scope="col" class="my-text-align-center">STT</th>
                         <th scope="col" class="my-text-align-center">Tên sản phẩm</th>
+                        <th scope="col" class="my-text-align-center">Đơn giá</th>
                         <th scope="col" class="my-text-align-center">Số lượng</th>
+                        <th scope="col" class="my-text-align-center">Thành tiền</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -52,15 +54,19 @@
 
             <div class="row g-3">
                 <div class="col-6 col-xs-12">
-                    <input type="text" readonly class="form-control-plaintext" style="font-size: 20;" value="Tổng hóa đơn (chưa tính ship):">
                 </div>
                 <div class="col-6 col-xs-12">
-                    <input type="text" class="form-control" id="inputRowNumber" placeholder="enter numbers only">
+                    <input type="text" id="totalPrice" readonly class="form-control-plaintext my-text-align-right" style="font-size: 20;" value="Tổng hóa đơn (chưa tính ship): 0 đồng">
                 </div>
             </div>
+
             <div class="my-space-30px"></div>
-            <div class="d-grid gap-2 d-md-block">
-                <button type="button" class="btn btn-primary mb-3" type="button" onclick="GetProductsByIds()">Xác nhận mua</button>
+            <div class="row g-3">
+                <div class="col-6 col-xs-12">
+                </div>
+                <div class="col-6 col-xs-12 my-text-align-right">
+                    <button type="button" class="btn btn-primary mb-3" type="button" onclick="GetProductsByIds()">Xác nhận mua</button>
+                </div>
             </div>
         </div>
 
