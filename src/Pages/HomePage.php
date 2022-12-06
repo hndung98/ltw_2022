@@ -39,8 +39,8 @@
         <!-- Sign in Modal -->
         <?php
         include_once './Components/toast.php';
-        showToast("Thông báo","Đã thêm vào giỏ hàng");
-        showRedToast("Thông báo","Error");
+        showToast("Thông báo", "Đã thêm vào giỏ hàng");
+        showRedToast("Thông báo", "Error");
         ?>
 
         <div class="my-space-10px"></div>
@@ -328,7 +328,6 @@
         <div class="container text-center">
             <!-- <h2>Advertise (new product, sales off, etc)</h2> -->
             <?php
-
             $listDiscountProducts = array(
                 new Suit("0", "Áo Chelsea sân nhà", "2022", "120 000", "../Assets/Images/Temp/chelsea1.jpg"),
                 new Suit("1", "Áo Real sân nhà", "2022", "130 000", "../Assets/Images/Temp/real1.jpg"),
@@ -351,25 +350,108 @@
                 new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
                 new Suit("11", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg")
             );
-            echo '<div class="my-space-30px"></div>';
-            Carousel($listDiscountProducts, "1", "Sản phẩm đang giảm giá");
+            // echo '<div class="my-space-30px"></div>';
+            // Carousel($listDiscountProducts, "1", "Sản phẩm đang giảm giá");
             echo '<div class="my-space-30px"></div>';
             Carousel($listNewProducts, "2", "Sản phẩm mới");
-            echo '<div class="my-space-30px"></div>';
-            Carousel($listBestProducts, "3", "Sản phẩm bán chạy");
+            // echo '<div class="my-space-30px"></div>';
+            // Carousel($listBestProducts, "3", "Sản phẩm bán chạy");
             ?>
         </div>
 
         <div class="container">
+            <?php
+            $listProducts1 = array();
+            $cid = 1;
+
+            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ';';
+            $result = $conn->query($sql_query);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($listProducts1, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                }
+            } else {
+                // $user_length = -1
+            }
+            if (count($listProducts1) > 0) {
+                echo '<div class="my-space-30px"></div>';
+                Carousel($listProducts1, "x1", "Áo CLB sân nhà");
+            } else {
+                echo '<p>Chưa có sản phẩm nào</p>';
+            }
+
+            // Ao CLB san khach
+            $listProducts = array();
+            $cid = 2;
+
+            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ';';
+            $result = $conn->query($sql_query);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                }
+            } else {
+                // $user_length = -1
+            }
+            if (count($listProducts) > 0) {
+                echo '<div class="my-space-30px"></div>';
+                Carousel($listProducts, "x2", "Áo CLB sân khách");
+            } else {
+                echo '<p>Chưa có sản phẩm nào</p>';
+            }
+
+            // Ao DTQG san nha
+            $listProducts = array();
+            $cid = 5;
+
+            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ';';
+            $result = $conn->query($sql_query);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                }
+            } else {
+                // $user_length = -1
+            }
+            if (count($listProducts) > 0) {
+                echo '<div class="my-space-30px"></div>';
+                Carousel($listProducts, "x5", "Áo ĐTQG sân nhà");
+            } else {
+                echo '<p>Chưa có sản phẩm nào</p>';
+            }
+
+            // Ao DTQG san khach
+            $listProducts = array();
+            $cid = 6;
+
+            $sql_query = 'SELECT * FROM product WHERE CategoryId = ' . $cid . ';';
+            $result = $conn->query($sql_query);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                }
+            } else {
+                // $user_length = -1
+            }
+            if (count($listProducts) > 0) {
+                echo '<div class="my-space-30px"></div>';
+                Carousel($listProducts, "x6", "Áo ĐTQG sân khách");
+            } else {
+                echo '<p>Chưa có sản phẩm nào</p>';
+            }
+
+            ?>
+        </div>
+
+        <!-- <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <!-- Product  -->
                     <div class="my-products">
                         <?php include_once './Components/products.php'; ?>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Footer  -->
         <div class="container my-bg-color-footer">
