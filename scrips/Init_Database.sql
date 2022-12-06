@@ -176,31 +176,51 @@ INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Imag
 VALUES ('Áo Real sân khách', 2, '2022-2023', '3','real2.jpg','real2.jpg','real2.jpg','real2.jpg',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Argentina sân nhà', 5, 'WC 2022', '2','arg1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐTArgentina sân nhà', 5, 'WC 2022', '2','arg1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Argentina sân khách', 6, 'WC 2022', '2','arg2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐTArgentina sân khách', 6, 'WC 2022', '2','arg2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Brazil sân nhà', 5, 'WC 2022', '2','brazil1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐTBrazil sân nhà', 5, 'WC 2022', '2','brazil1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Brazil sân khách', 6, 'WC 2022', '2','brazil2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐT Brazil sân khách', 6, 'WC 2022', '2','brazil2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo BĐN sân nhà', 5, 'WC 2022', '2','portugal1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐT BĐN sân nhà', 5, 'WC 2022', '2','portugal1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo BĐN sân khách', 6, 'WC 2022', '2','portugal2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐT BĐN sân khách', 6, 'WC 2022', '2','portugal2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Pháp sân nhà', 5, 'WC 2022', '2','france1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐT Pháp sân nhà', 5, 'WC 2022', '2','france1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Đức sân nhà', 5, 'WC 2022', '2','germany1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐT Bỉ sân nhà', 5, 'WC 2022', '2','belgium1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Áo Đức sân khách', 6, 'WC 2022', '2','germany2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+VALUES ('Áo ĐT Croatia sân nhà', 5, 'WC 2022', '2','croatia1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
+VALUES ('Áo ĐT Anh sân nhà', 5, 'WC 2022', '2','england1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
+VALUES ('Áo ĐT Đức sân nhà', 5, 'WC 2022', '2','germany1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
+VALUES ('Áo ĐT Đức sân khách', 6, 'WC 2022', '2','germany2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
+VALUES ('Áo ĐT Hà Lan sân khách', 6, 'WC 2022', '2','holand2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
+VALUES ('Áo ĐT Nhật sân nhà', 5, 'WC 2022', '2','japan1.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
+VALUES ('Áo ĐT Nhật sân khách', 6, 'WC 2022', '2','japan2.jpg','','','',120000, 80000, 1, 20, 'Mô tả');
+
+
 
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
@@ -219,7 +239,7 @@ INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Imag
 VALUES ('Giày Copa đen', 9, '2022', '1','shoe5.jpg','','','',380000, 260000, 1, 20, 'Mô tả');
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
-VALUES ('Giày Copae trắng', 9, '2022', '1','shoe6.jpg','','','',380000, 260000, 1, 20, 'Mô tả');
+VALUES ('Giày Copa trắng', 9, '2022', '1','shoe6.jpg','','','',380000, 260000, 1, 20, 'Mô tả');
 
 
 INSERT INTO `product`(`ProductName`,`CategoryId`,`Season`,`Brand`,`Image1`,`Image2`,`Image3`,`Image4`,`SalesPrice`,`PurchasePrice`,`AllowSales`,`Inventory`,`Description`)
