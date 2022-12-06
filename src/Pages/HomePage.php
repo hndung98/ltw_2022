@@ -29,14 +29,14 @@
             include_once './Components/menu.php';
             ?>
         </div>
-        <!-- Sign in Modal -->
+        <!-- Modal -->
         <?php
-        include_once './Components/sign-in-modal.php';
+        include_once './Components/modals.php';
         SignInDialog();
         SignUpDialog();
         SuccessSignUpDialog();
         ?>
-        <!-- Sign in Modal -->
+        <!--  -->
         <?php
         include_once './Components/toast.php';
         showToast("Thông báo", "Đã thêm vào giỏ hàng");
@@ -328,34 +328,23 @@
         <div class="container text-center">
             <!-- <h2>Advertise (new product, sales off, etc)</h2> -->
             <?php
-            $listDiscountProducts = array(
-                new Suit("0", "Áo Chelsea sân nhà", "2022", "120 000", "../Assets/Images/Temp/chelsea1.jpg"),
-                new Suit("1", "Áo Real sân nhà", "2022", "130 000", "../Assets/Images/Temp/real1.jpg"),
-                new Suit("2", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("3", "Áo Chelsea sân khách", "2022", "110 000", "../Assets/Images/Temp/chelsea2.jpg"),
-                new Suit("4", "Áo Real sân khách", "2022", "110 000", "../Assets/Images/Temp/real2.jpg"),
-                new Suit("5", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg"),
-            );
-            $listNewProducts = array(
-                new Suit("6", "Áo MU sân nhà", "2022", "120 000", "../Assets/Images/Temp/MU1.jpg"),
-                new Suit("7", "Áo Real sân nhà", "2022", "120 000", "../Assets/Images/Temp/real1.jpg"),
-                new Suit("8", "Áo Barca sân nhà", "2022", "120 000", "../Assets/Images/Temp/barca1.jpg"),
-                new Suit("9", "Áo MC sân nhà", "2022", "120 000", "../Assets/Images/Temp/MC1.jpg"),
-                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg")
-            );
-            $listBestProducts = array(
-                new Suit("12", "Áo Chelsea sân khách", "2022", "110 000", "../Assets/Images/Temp/chelsea2.jpg"),
-                new Suit("13", "Áo Real sân khách", "2022", "110 000", "../Assets/Images/Temp/real2.jpg"),
-                new Suit("10", "Áo Arsenal sân nhà", "2022", "120 000", "../Assets/Images/Temp/arsenal1.jpg"),
-                new Suit("11", "Áo Arsenal sân khách", "2022", "110 000", "../Assets/Images/Temp/arsenal2.jpg")
-            );
-            // echo '<div class="my-space-30px"></div>';
-            // Carousel($listDiscountProducts, "1", "Sản phẩm đang giảm giá");
-            echo '<div class="my-space-30px"></div>';
-            Carousel($listNewProducts, "2", "Sản phẩm mới");
-            // echo '<div class="my-space-30px"></div>';
-            // Carousel($listBestProducts, "3", "Sản phẩm bán chạy");
+            // Ao CLB san khach
+            $listProducts = array();
+
+            $sql_query = 'SELECT * FROM product WHERE CategoryId IN (1,2,5,6) ORDER BY CreatedDateTime DESC LIMIT 9;';
+            $result = $conn->query($sql_query);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    array_push($listProducts, new Suit($row['ProductId'], $row['ProductName'], $row['Season'], $row['SalesPrice'], '../../assets/images/dbo/' . $row['Image1']));
+                }
+            } else {
+            }
+            if (count($listProducts) > 0) {
+                echo '<div class="my-space-30px"></div>';
+                Carousel($listProducts, "01", "Áo bóng đá mới");
+            } else {
+                echo '<p>Chưa có sản phẩm nào</p>';
+            }
             ?>
         </div>
 

@@ -1,7 +1,7 @@
 <?php
 function SignInDialog(){
     echo '
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="signInStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -36,7 +36,7 @@ function SignInDialog(){
                 <button class="btn btn-link" type="button">Quên mật khẩu</button>
               </div>
               <div class="col-12 my-text-align-right">
-                <button class="btn btn-link" type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">Đăng ký</button>
+                <button class="btn btn-link" type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signUpStaticBackdrop">Đăng ký</button>
               </div>
             </form>
           </div>
@@ -51,7 +51,7 @@ function SignInDialog(){
 
 function SignUpDialog(){
   echo '
-  <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+  <div class="modal fade" id="signUpStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -146,7 +146,6 @@ function SignUpDialog(){
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">Đăng ký thành công</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </div>
@@ -155,14 +154,13 @@ function SignUpDialog(){
   ';
 }
 
-
 function SuccessSignUpDialog(){
   echo '
-  <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel3" aria-hidden="true">
+  <div class="modal fade" id="successSignUpStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="successSignUpStaticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel3">Thông báo</h1>
+          <h1 class="modal-title fs-5" id="successSignUpStaticBackdropLabel">Thông báo</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
         </div>
         <div class="modal-body">
@@ -170,6 +168,55 @@ function SuccessSignUpDialog(){
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  ';
+}
+
+
+
+function PurchaseInfoDialog(){
+  echo '
+  <div class="modal fade" id="purchaseInfoStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="purchaseInfoStaticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="purchaseInfoStaticBackdropLabel">Để lại thông tin mua hàng</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+        </div>
+        <div class="modal-body">
+          <form class="needs-validation" id="purchaseInfoForm">
+            <div class="mb-3">
+              <label for="validationCustomPhoneNumber" class="form-label">SĐT</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomPhoneNumber" aria-describedby="inputGroupPrepend" required>
+                <div class="invalid-feedback">
+                  SDT.
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="validationCustomName" class="form-label">Tên</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomName" aria-describedby="inputGroupPrepend" required>
+                <div class="invalid-feedback">
+                  SDT.
+                </div>
+              </div>
+            </div>
+            <div class="my-space-10px"></div>
+            <div class="col-12 d-grid">
+              <button class="btn btn-primary" type="button" onclick="CheckPurchaseInfo()">Xác nhận</button>
+            </div>
+            <div class="col-12 my-text-align-right">
+              <button class="btn btn-link" type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#signInStaticBackdrop">Đăng nhập</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
         </div>
       </div>
     </div>

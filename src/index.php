@@ -23,6 +23,9 @@ route($base_uri . 'about/', function(){
 route($base_uri . '404/', function(){
     include './Pages/404Page.php';
 });
+route($base_uri . 'dashboard/', function () {
+    include './Pages/Dashboard.php';
+});
 
 function route(string $path, callable $callback){
     global $routes;

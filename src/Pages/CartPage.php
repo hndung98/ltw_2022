@@ -28,13 +28,20 @@
             include_once './Components/menu.php';
             ?>
         </div>
+        <!-- Modals and Toasts -->
+        <?php
+        include_once './Components/modals.php';
+        include_once './Components/toast.php';
+        SignInDialog();
+        SignUpDialog();
+        SuccessSignUpDialog();
+        PurchaseInfoDialog();
+        showToast("Thông báo", "Đã thêm vào giỏ hàng");
+        showRedToast("Thông báo", "Error");
+        ?>
 
         <!-- TEST  -->
         <div class="container">
-            <h2>Special Control</h2>
-            <div class="d-grid gap-2 d-md-block">
-                <button type="button" class="btn btn-primary mb-3" type="button" onclick="logCart()">Log Cart</button>
-            </div>
 
             <h2>Danh sách giỏ hàng</h2>
             <div class="my-space-30px"></div>
@@ -65,7 +72,7 @@
                 <div class="col-6 col-xs-12">
                 </div>
                 <div class="col-6 col-xs-12 my-text-align-right">
-                    <button type="button" class="btn btn-primary mb-3" type="button" onclick="GetProductsByIds()">Xác nhận mua</button>
+                    <button type="button" class="btn btn-primary mb-3" type="button" onclick="PurchaseFromCart()">Xác nhận mua</button>
                 </div>
             </div>
         </div>

@@ -4,10 +4,20 @@ var MAX_ROW_NUMBER = 10;
 var MAX_COL_NUMBER = 5;
 var oldWidth = document.documentElement.clientWidth;
 
+////// Features
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function validateEmail(email){
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+
+
+///// Init website
 Init();
 
-// ResizeWindow();
-// window.addEventListener('resize', ResizeWindow);
 
 function Init() {
   console.log("Init");
@@ -23,53 +33,27 @@ function Init() {
 }
 
 function updateMenuActive() {
-  let menus = ["home", "product", "about", "cart"];
+  let menus = ["home", "about", "cart"];
   let url = document.URL.split("/");
+  if(url.findIndex((element) => element == "cart") > -1){
+    console.log("CART_PAGE");
+    LoadCart();
+  };
   let i = url.findIndex((element) => menus.findIndex((e) => e == element) > -1);
-  console.log("i: ", i);
   if (i > -1) {
     menus.forEach((element) => {
       let menuItemElement = document.getElementById("menu-item-" + element);
-      console.log("menuItemElement: ", menuItemElement);
       // if(menuItemElement.classList.contains("active")){
       //   menuItemElement.classList.remove("active");
       // }
       if (element == url[i]) {
         menuItemElement.classList?.add("active");
       }
-      if (element == "cart"){
-        console.log("CART_PAGE");
-        logCart();
-      }
     });
   }
 }
 
-function GetProductsByIds() {
-  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
-
-  $.ajax({
-    type: "GET",
-    url: "../Services/AppServices.php",
-    data: { action: "GetProductsByIds", idList: cart_id },
-  }).done(function (res) {
-    console.log("GetProductsByIds Successful ");
-    let data = JSON.parse(res);
-    console.log("GetProductsByIds: ", data);
-  });
-}
-
-///////Features
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-function validateEmail(email){
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
-};
-///////
-
+///// Button event
 function CheckSignUp(){
   let usernameElement = document.getElementById("validationCustomUsername2");
   let passwordElement = document.getElementById("validationCustomPassword2");
@@ -143,7 +127,7 @@ function SignUp(username, password, phone, email, firstName, lastName, gender) {
     let data = JSON.parse(res);
     console.log("data: ", data);
     if (data.success) {
-      $("#staticBackdrop2").modal("hide");
+      $("#signUpStaticBackdrop").modal("hide");
       $("#signUpForm")[0].reset();
       showToast("Đăng ký thành công");
     }
@@ -190,9 +174,13 @@ function Login(username, password) {
     let data = JSON.parse(res);
     console.log("data: ", data);
     if(data.success){
-      $('#staticBackdrop').modal('hide');
+      $('#signInStaticBackdrop').modal('hide');
       $('#signInForm')[0].reset();
       localStorage.setItem("uid", data.user.id);
+      localStorage.setItem("fname", data.user.fname);
+      localStorage.setItem("lname", data.user.lname);
+      localStorage.setItem("email", data.user.email);
+      localStorage.setItem("phone", data.user.phone);
       UpdateLogin(true);
     }
   });
@@ -202,20 +190,6 @@ function Logout() {
   console.log("[Click Logout]");
   localStorage.removeItem("uid");
   UpdateLogin(false);
-}
-
-$("#btn-login").click(function () {
-  console.log("login clicked");
-});
-
-function UpdateLogin(isLogin) {
-  if (isLogin) {
-    document.getElementById("btn-login").style.display = "none";
-    document.getElementById("div-avatar").style.display = "inline";
-  } else {
-    document.getElementById("btn-login").style.display = "inline";
-    document.getElementById("div-avatar").style.display = "none";
-  }
 }
 
 function ViewProductDetails(id) {
@@ -266,7 +240,99 @@ function AddToCart(pid, name, price) {
   showToast();
 }
 
-function logCart() {
+function GetProductsByIds() {
+  let cart_id = JSON.parse(localStorage.getItem("cart_id"));
+
+  $.ajax({
+    type: "GET",
+    url: "../Services/AppServices.php",
+    data: { action: "GetProductsByIds", idList: cart_id },
+  }).done(function (res) {
+    console.log("GetProductsByIds Successful ");
+    let data = JSON.parse(res);
+    console.log("GetProductsByIds: ", data);
+  });
+}
+
+function CheckPurchaseInfo(){
+  let nameElement = document.getElementById("validationCustomName");
+  let phoneElement = document.getElementById("validationCustomPhoneNumber");
+  let tempName = nameElement.value;
+  let tempPhone = phoneElement.value;
+
+  let idList = localStorage.getItem("cart_id");
+  let numberList = localStorage.getItem("cart_number");
+  console.log('idlist: ', idList);
+  console.log('numberList: ', numberList);
+  if (tempName && tempPhone){
+
+    $.ajax({
+      type: "POST",
+      url: "../Services/AppServices.php",
+      data: { action: "PurchaseTemp", tempName: tempName, tempPhone: tempPhone, totalPrice: getTotalPrice(), idList: idList, numberList: numberList },
+    }).done(function (res) {
+      let data = JSON.parse(res);
+      console.log("data: ", data);
+      if(data.success){
+        $('#purchaseInfoStaticBackdrop').modal('hide');
+        $('#purchaseInfoForm')[0].reset();
+        showToast("Đã gửi yêu cầu đặt hàng");
+        resetCart();
+        setTimeout(function(){
+          window.location.reload();
+        },1000);
+      }
+    });
+  }
+  //
+}
+
+function PurchaseFromCart(){
+  if(getTotalPrice() > 0){
+    let uid = localStorage.getItem("uid");
+    let lname = localStorage.getItem("lname");
+    let phone = localStorage.getItem("phone");
+    if (uid) { //Loged in case
+      let idList = localStorage.getItem("cart_id");
+      let numberList = localStorage.getItem("cart_number");  
+      $.ajax({
+        type: "POST",
+        url: "../Services/AppServices.php",
+        data: { action: "Purchase", uid: uid, tempName: lname, tempPhone: phone, totalPrice: getTotalPrice(), idList: idList, numberList: numberList },
+      }).done(function (res) {
+        let data = JSON.parse(res);
+        console.log("data: ", data);
+        if(data.success){
+          showToast("Đã gửi yêu cầu đặt hàng");
+          resetCart();
+          setTimeout(function(){
+            window.location.reload();
+          },1000);
+        }
+      });
+    } else { //Not Login
+      $('#purchaseInfoStaticBackdrop').modal('toggle');
+      // $('#purchaseInfoStaticBackdrop').modal('show');
+      //$('#signInForm')[0].reset();    
+    }
+  }
+  else{
+    showRedToast("Giỏ hàng chưa có gì!");
+  }
+}
+
+///// Update page
+function UpdateLogin(isLogin) {
+  if (isLogin) {
+    document.getElementById("btn-login").style.display = "none";
+    document.getElementById("div-avatar").style.display = "inline";
+  } else {
+    document.getElementById("btn-login").style.display = "inline";
+    document.getElementById("div-avatar").style.display = "none";
+  }
+}
+
+function LoadCart() {
   let cart_id = JSON.parse(localStorage.getItem("cart_id"));
   let cart_name = JSON.parse(localStorage.getItem("cart_name"));
   let cart_price = JSON.parse(localStorage.getItem("cart_price"));
@@ -378,12 +444,22 @@ function logCart() {
   let totalPriceElement = document.getElementById("totalPrice");
   totalPriceElement.value = "Tổng hóa đơn (chưa tính ship): " + numberWithCommas(totalPrice) + " đồng";
 }
+
+function resetCart(){
+  localStorage.removeItem("cart_id");
+  localStorage.removeItem("cart_name");
+  localStorage.removeItem("cart_price");
+  localStorage.removeItem("cart_number");
+}
+
 function getTotalPrice(){
   cart_price = JSON.parse(localStorage.getItem("cart_price"));
   cart_number = JSON.parse(localStorage.getItem("cart_number"));
   let totalPrice = 0;
-  for(let i = 0; i < cart_price.length; i++){
-    totalPrice += (parseInt(cart_price[i].replaceAll(' ', '')))*(parseInt(cart_number[i]));
+  if(cart_price){
+    for(let i = 0; i < cart_price.length; i++){
+      totalPrice += (parseInt(cart_price[i].replaceAll(' ', '')))*(parseInt(cart_number[i]));
+    }
   }
   return totalPrice;
 }
@@ -406,7 +482,7 @@ function showRedToast(msg){
   toast.show();
 }
 
-//////////////////////////// TEST
+////// TEST
 function ResizeWindow(event) {
   let width = document.documentElement.clientWidth;
   console.log("clientWidth: ", width);
@@ -460,4 +536,3 @@ function GetUserInfo() {
     console.log("GetUserInfo: ", data);
   });
 }
-//////////////////////////// 

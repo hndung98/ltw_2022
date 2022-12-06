@@ -32,11 +32,64 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == 'Login') {
         Login();
     }
+    if ($_GET['action'] == 'DeleteUser') {
+        deleteUserById();
+    }
+    if ($_GET['action'] == 'AddForm') {
+        $_SESSION['update'] = false;
+        $_SESSION['add'] = true;
+        unset($_SESSION['info']['userID']);
+        unset($_SESSION['info']['userName']);
+        unset($_SESSION['info']['firstName']);
+        unset($_SESSION['info']['lastName']);
+        unset($_SESSION['info']['email']);
+        unset($_SESSION['info']['phone']);
+        unset($_SESSION['info']['userType']);
+        unset($_SESSION['info']['password']);
+    }
+    if ($_GET['action'] == 'EditUser') {
+        GetInfo();
+    }
 }
+
 if (isset($_POST['action'])) {
     if ($_POST['action'] == "SignUp") {
         SignUp();
     }
+    if ($_POST['action'] == "Purchase") {
+        Purchase();
+    }
+    if ($_POST['action'] == "PurchaseTemp") {
+        PurchaseTemp();
+    }
+}
+if (isset($_POST['addUser'])) {
+    addNewUserByAdmin();
+}
+if (isset($_POST['update'])) {
+    UpdateUser();
+}
+function GetInfo()
+{
+    global $conn;
+
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM user WHERE UserId = $id ";
+    $result = $conn->query($sql);
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['info']['userName'] = $row['Username'];
+        $_SESSION['info']['firstName'] = $row['FirstName'];
+        $_SESSION['info']['lastName'] = $row['LastName'];
+        $_SESSION['info']['email'] = $row['Email'];
+        $_SESSION['info']['phone'] = $row['Phone'];
+        $_SESSION['info']['createdDate'] = $row['CreatedDateTime'];
+        $_SESSION['info']['userType'] = $row['Usertype'];
+        $_SESSION['info']['password'] = $row['password'];
+        $_SESSION['info']['userID'] = $row['Userid'];
+    }
+    $_SESSION['add'] = false;
+    $_SESSION['update'] = true;
 }
 
 function GetAppInfo()
@@ -194,7 +247,6 @@ function GetAllUser()
     echo json_encode($form_data);
 }
 
-
 function SignUp()
 {
     global $conn;
@@ -263,5 +315,323 @@ function SignUp()
     }
 
     //Return data
+    echo json_encode($form_data);
+}
+
+function PurchaseTemp(){
+    global $conn;
+    $errors = array();
+    $form_data = array();
+    /* Validate the form on the server side */
+    if (empty($_POST['tempName'])) {
+        $errors['tempName'] = 'name cannot be blank';
+    }
+    if (empty($_POST['tempPhone'])) {
+        $errors['tempPhone'] = 'name cannot be blank';
+    }
+    
+    $tempName = $_POST['tempName'];
+    $tempPhone = $_POST['tempPhone'];
+    $totalPrice = $_POST['totalPrice'];
+    $idList = json_decode($_POST['idList']);
+    $numberList = json_decode($_POST['numberList']);
+    $sql_query = 'INSERT INTO SalesHeader(UserId,Confirm,Pay,TotalPrice,TempName,TempPhone)
+                    VALUES(0,0,0,'.$totalPrice.',"'.$tempName.'","'.$tempPhone.'");';
+    $result = $conn->query($sql_query);
+
+    if($result == true){
+        $last_id = $conn->insert_id;
+        $form_data['lastId'] = $last_id;
+
+        for($i = 0; $i < count($idList); $i++){
+            $sql_query = 'INSERT INTO SalesDetails(SalesHeaderId,ProductId,Quantity)
+                            VALUES('.$last_id.','.$idList[$i].','.$numberList[$i].');';
+            $conn->query($sql_query);
+            $form_data["query".$i] = $sql_query;
+        }
+
+        $form_data['success'] = true;
+        $form_data['msg'] = 'Data Was Posted Successfully';
+    }
+
+    //Return data
+    echo json_encode($form_data);
+}
+
+function Purchase(){
+    global $conn;
+    $errors = array();
+    $form_data = array();
+    /* Validate the form on the server side */
+    if (empty($_POST['uid'])) {
+        $errors['uid'] = 'user id cannot be blank';
+    }
+    if (empty($_POST['tempName'])) {
+        $errors['tempName'] = 'name cannot be blank';
+    }
+    if (empty($_POST['tempPhone'])) {
+        $errors['tempPhone'] = 'name cannot be blank';
+    }
+    
+    $uid = $_POST['uid'];
+    $tempName = $_POST['tempName'];
+    $tempPhone = $_POST['tempPhone'];
+    $totalPrice = $_POST['totalPrice'];
+    $idList = json_decode($_POST['idList']);
+    $numberList = json_decode($_POST['numberList']);
+    $sql_query = 'INSERT INTO SalesHeader(UserId,Confirm,Pay,TotalPrice,TempName,TempPhone)
+                    VALUES('.$uid.',0,0,'.$totalPrice.',"'.$tempName.'","'.$tempPhone.'");';
+    $result = $conn->query($sql_query);
+
+    if($result == true){
+        $last_id = $conn->insert_id;
+        $form_data['lastId'] = $last_id;
+
+        for($i = 0; $i < count($idList); $i++){
+            $sql_query = 'INSERT INTO SalesDetails(SalesHeaderId,ProductId,Quantity)
+                            VALUES('.$last_id.','.$idList[$i].','.$numberList[$i].');';
+            $conn->query($sql_query);
+            $form_data["query".$i] = $sql_query;
+        }
+
+        $form_data['success'] = true;
+        $form_data['msg'] = 'Data Was Posted Successfully';
+    }
+
+    //Return data
+    echo json_encode($form_data);
+}
+
+
+function UpdateUser()
+{
+    global $conn;
+    $id = $_SESSION['info']['userID'];
+    $userType = $_POST['userType'];
+    $userName = $_POST['name'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $gender = $_POST['gender'];
+    $password = $_POST['password'];
+    $day = $_POST['day'];
+    $month = $_POST['month'];
+    $year = $_POST['year'];
+    if ($day < 10) $day = '0' . $day;
+    if ($month < 10) $month = '0' . $month;
+    $birthday = $year . '-' . $month . '-' . $day;
+    $date = date('d-m-y h:i:s');
+    $checkEmail = checkExistEmail($email, $conn);
+    $checkUsername = checkExistUserName($userName, $conn);
+    if (
+        $userType == "" || $userName == "" || $email == "" || $phone == "" ||
+        $password == "" || $birthday == "" || $gender == "" || $firstName == "" || $lastName == ""
+    ) {
+        $_SESSION['message'] = 'Input fields must not be empty !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (!checkdate(
+        $month,
+        $day,
+        $year
+    )) {
+        $_SESSION['message'] = 'The date of birth is invalid. Please check that the day is valid for the month.';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (strlen($userName) < 3) {
+        $_SESSION['message'] = 'Username is too short, at least 3 Characters !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif ($checkUsername == TRUE) {
+        $_SESSION['message'] = 'User name already Exists, please try another user name... !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (filter_var($phone, FILTER_SANITIZE_NUMBER_INT) == FALSE) {
+        $_SESSION['message'] = 'Enter only Number Characters for Mobile number field !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (strlen($password) < 5) {
+        $_SESSION['message'] = 'Password at least 6 Characters !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (!preg_match(
+        "#[0-9]+#",
+        $password
+    )) {
+        $_SESSION['message'] = 'Your Password Must Contain At Least 1 Number !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (!preg_match("#[a-z]+#", $password)) {
+        $_SESSION['message'] = 'Your Password Must Contain At Least 1 Character !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
+        $_SESSION['message'] = 'Invalid email address !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif ($checkEmail == TRUE) {
+        $_SESSION['message'] = 'Email already Exists, please try another Email... !';
+        $_SESSION['messageType'] = 'danger';
+    } else {
+        $sql = "UPDATE user SET Usertype=?, Username=?, Password=?, FirstName=?, LastName=?, Birthday=?, Gender=?, Email=?, Phone=? WHERE Userid = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param(
+            'ssssssssss',
+            $userType,
+            $userName,
+            $password,
+            $firstName,
+            $lastName,
+            $birthday,
+            $gender,
+            $email,
+            $phone,
+            $id
+        );
+        $result = $stmt->execute();
+        if ($result) {
+            $_SESSION['message'] = 'User Account has been updated !';
+            $_SESSION['messageType'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Something went Wrong !';
+            $_SESSION['messageType'] = 'danger';
+        }
+    }
+    header("location: /assignment/dashboard/");
+    $_SESSION['update'] = false;
+}
+
+function checkExistEmail($email, $conn)
+{
+    $sql = "SELECT Email from user WHERE Email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if (mysqli_num_rows($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkExistUserName($username, $conn)
+{
+    $sql = "SELECT Username from user WHERE Username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if (mysqli_num_rows($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function addNewUserByAdmin()
+{
+    global $conn;
+    $userType = $_POST['userType'];
+    $userName = $_POST['name'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $gender = $_POST['gender'];
+    $password = $_POST['password'];
+    $day = $_POST['day'];
+    $month = $_POST['month'];
+    $year = $_POST['year'];
+    if ($day < 10) $day = '0' . $day;
+    if ($month < 10) $month = '0' . $month;
+    $birthday = $year . '-' . $month . '-' . $day;
+    $date = date('d-m-y h:i:s');
+    $checkEmail = checkExistEmail($email, $conn);
+    $checkUsername = checkExistUserName($userName, $conn);
+    if (
+        $userType == "" || $userName == "" || $email == "" || $phone == "" ||
+        $password == "" || $birthday == "" || $gender == "" || $firstName == "" || $lastName == ""
+    ) {
+        $_SESSION['message'] = 'Input fields must not be empty !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (!checkdate(
+        $month,
+        $day,
+        $year
+    )) {
+        $_SESSION['message'] = 'The date of birth is invalid. Please check that the day is valid for the month.';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (strlen($userName) < 3) {
+        $_SESSION['message'] = 'Username is too short, at least 3 Characters !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif ($checkUsername == TRUE) {
+        $_SESSION['message'] = 'User name already Exists, please try another user name... !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (filter_var($phone, FILTER_SANITIZE_NUMBER_INT) == FALSE) {
+        $_SESSION['message'] = 'Enter only Number Characters for Mobile number field !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (strlen($password) < 5) {
+        $_SESSION['message'] = 'Password at least 6 Characters !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (!preg_match(
+        "#[0-9]+#",
+        $password
+    )) {
+        $_SESSION['message'] = 'Your Password Must Contain At Least 1 Number !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (!preg_match("#[a-z]+#", $password)) {
+        $_SESSION['message'] = 'Your Password Must Contain At Least 1 Character !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
+        $_SESSION['message'] = 'Invalid email address !';
+        $_SESSION['messageType'] = 'danger';
+    } elseif ($checkEmail == TRUE) {
+        $_SESSION['message'] = 'Email already Exists, please try another Email... !';
+        $_SESSION['messageType'] = 'danger';
+    } else {
+        $sql = "INSERT INTO user(Usertype, Username, Password, FirstName, LastName, Birthday, Gender, Email, Phone, CreatedDateTime) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param(
+            'ssssssssss',
+            $userType,
+            $userName,
+            $password,
+            $firstName,
+            $lastName,
+            $birthday,
+            $gender,
+            $email,
+            $phone,
+            $date
+        );
+        $result = $stmt->execute();
+        if ($result) {
+            $_SESSION['message'] = 'You have Registered Successfully !';
+            $_SESSION['messageType'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Something went Wrong !';
+            $_SESSION['messageType'] = 'danger';
+        }
+    }
+    header("location: /assignment/dashboard/");
+    $_SESSION['add'] = false;
+}
+
+function deleteUserById()
+{
+    global $conn;
+    $form_data = array();
+
+    $id = $_GET['id'];
+    $sql = "DELETE FROM user WHERE UserId = ? ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $id);
+    $result = $stmt->execute();
+    if ($result) {
+        $form_data['message'] = '<div class="alert alert-success alert-dismissible mt-3" id="flash-msg">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success !</strong> User account Deleted Successfully !
+    </div>';
+    } else {
+        $form_data['message'] = '<div class="alert alert-danger alert-dismissible mt-3" id="flash-msg">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error !</strong> Data not Deleted !
+    </div>';
+    }
+    $_SESSION['message'] = "User account has been deleted";
+    $_SESSION['messageType'] = "danger";
     echo json_encode($form_data);
 }
