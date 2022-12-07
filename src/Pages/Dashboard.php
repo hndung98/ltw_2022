@@ -108,6 +108,7 @@ include_once "./Services/AppServices.php";
                     </thead>
                     <tbody>
                         <?php
+                        $conn = Database::getConnection();
                         $select_users = "select * from `user`";
                         $result_users = mysqli_query($conn, $select_users);
 
